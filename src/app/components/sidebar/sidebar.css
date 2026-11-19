@@ -1,0 +1,42 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sidebar {
+  width: 80px;
+  height: 100%;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid #2a2e3f;
+}
+
+.logo-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--purple-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem; /* ajuste o tamanho da letra */
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.nav-link {
+  color: #ffffff;
+  opacity: 0.6;
+  transition:
+    opacity 0.2s,
+    color 0.2s;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  opacity: 1;
+  color: var(--purple-accent) !important;
+}

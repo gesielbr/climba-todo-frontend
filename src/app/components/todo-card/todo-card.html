@@ -1,0 +1,83 @@
+<div
+  class="todo-card p-3 mb-3 d-flex align-items-center justify-content-between"
+  [class.completed]="todo().isCompleted"
+  [class.active-card]="isActive()"
+>
+  <div class="d-flex align-items-center gap-3 flex-grow-1">
+    <input
+      type="checkbox"
+      class="form-check-input custom-checkbox"
+      [checked]="todo().isCompleted"
+      (change)="onToggle.emit(todo().id)"
+    />
+
+    @if (isEditing()) {
+      <div class="edit-fields flex-grow-1">
+        <input
+          type="text"
+          class="form-control form-control-sm mb-2"
+          [ngModel]="editTitle()"
+          (ngModelChange)="editTitle.set($event)"
+          placeholder="Título"
+        />
+        <input
+          type="text"
+          class="form-control form-control-sm mb-1"
+          [ngModel]="editDescription()"
+          (ngModelChange)="editDescription.set($event)"
+          placeholder="Descrição (opcional)"
+        />
+        <input
+          type="date"
+          class="form-control form-control-sm"
+          [class.is-invalid]="editDateError()"
+          [ngModel]="editDueDate()"
+          (ngModelChange)="editDueDate.set($event)"
+        />
+        @if (editDateError()) {
+          <small class="text-danger d-block mt-1">{{ editDateError() }}</small>
+        }
+      </div>
+    } @else {
+      <div class="text-content">
+        <div class="d-flex align-items-center gap-2">
+          <h6 class="mb-0 fw-bold">{{ todo().title }}</h6>
+          <span class="badge-status" [class.completed]="todo().isCompleted">
+            {{ todo().isCompleted ? 'Concluída' : 'Pendente' }}
+          </span>
+        </div>
+        @if (todo().description) {
+          <small class="text-white-50 d-block text-truncate description">
+            {{ todo().description }}
+          </small>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="text-end d-flex align-items-center gap-2">
+    @if (isEditing()) {
+      <button type="button" class="btn-action" (click)="saveEdit()" aria-label="Salvar">
+        <i class="bi bi-check-lg"></i>
+      </button>
+      <button type="button" class="btn-action" (click)="cancelEdit()" aria-label="Cancelar">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    } @else {
+      <small>
+        {{ todo().dueDate ? (todo().dueDate | date: 'dd/MM/yyyy' : 'UTC') : 'Sem data' }}
+      </small>
+      <button type="button" class="btn-action" (click)="startEdit()" aria-label="Editar">
+        <i class="bi bi-pencil"></i>
+      </button>
+      <button
+        type="button"
+        class="btn-action btn-delete"
+        (click)="onDelete.emit(todo().id); $event.stopPropagation()"
+        aria-label="Excluir tarefa"
+      >
+        <i class="bi bi-trash"></i>
+      </button>
+    }
+  </div>
+</div>

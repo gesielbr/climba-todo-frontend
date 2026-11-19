@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.create-task-panel {
+  background-color: var(--bg-sidebar);
+  border-left: 1px solid #2a2e3f;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.form-control::placeholder {
+  color: #565f89;
+}
+
+.btn-important {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: #fff;
+}
+
+.btn-important:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.btn-success:disabled {
+  background-color: rgba(25, 135, 84, 0.4); /* verde fraco */
+  border-color: transparent;
+  color: rgba(255, 255, 255, 0.5); /* letra mais apagada */
+  opacity: 1; /* anula o opacity padrão do Bootstrap */
+  cursor: not-allowed;
+}
+
+/* Afasta o ícone de erro do calendário */
+input[type='date'].is-invalid {
+  padding-right: 5rem; /* espaço para o ícone de erro + calendário */
+  background-position: right 2rem center; /* posiciona o ícone de erro mais à esquerda */
+}
+
+/* No mobile o painel não tem borda lateral */
+@media (max-width: 767px) {
+  .create-task-panel {
+    border-left: none;
+    border-top: 1px solid #2a2e3f;
+  }
+}

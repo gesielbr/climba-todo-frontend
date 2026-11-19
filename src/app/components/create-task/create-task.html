@@ -1,0 +1,56 @@
+<div class="create-task-panel p-4 h-100">
+  <h3 class="fw-bold mb-4">Criar<br />Nova Tarefa</h3>
+
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" novalidate (focusin)="formFocused.emit()">
+    <!-- Título -->
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        placeholder="Título da Tarefa"
+        formControlName="title"
+      />
+      @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
+        <small class="text-danger">Título é obrigatório (max 150 chars).</small>
+      }
+    </div>
+
+    <!-- Data e hora -->
+    <div class="mb-3 row g-2">
+      <div class="col-12">
+        <input
+          type="date"
+          class="form-control form-control-sm bg-dark text-white border-secondary p-2"
+          formControlName="dueDate"
+          [class.is-invalid]="taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched"
+        />
+        @if (taskForm.get('dueDate')?.touched) {
+          @if (taskForm.get('dueDate')?.hasError('dataPassada')) {
+            <small class="text-danger">A data não pode ser no passado.</small>
+          }
+          @if (taskForm.get('dueDate')?.hasError('dataInvalida')) {
+            <small class="text-danger">Data inválida.</small>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Descrição -->
+    <div class="mb-4">
+      <textarea
+        class="form-control"
+        rows="3"
+        placeholder="Descrição (opcional)"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-success w-100 py-3 fw-bold rounded-3"
+      [disabled]="taskForm.invalid"
+    >
+      Criar Tarefa
+    </button>
+  </form>
+</div>
