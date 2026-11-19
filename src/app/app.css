@@ -1,6 +1,29 @@
 :host {
   display: block;
-  height: 100vh;
   background-color: #1a1b26;
+}
+
+/* Desktop: layout fixo com scroll independente */
+.app-layout {
+  height: 100vh;
   overflow: hidden;
+}
+
+/* Mobile: layout empilhado com scroll natural */
+@media (max-width: 767px) {
+  .app-layout {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  /* No mobile, a lista tem altura fixa para o scroll interno funcionar */
+  .app-layout app-todo-list {
+    height: 60vh;
+  }
+
+  /* O create-task fica embaixo, com altura automática */
+  .app-layout app-create-task {
+    height: auto;
+  }
 }

@@ -70,3 +70,10 @@
     height: 38px;
   }
 }
+
+/* Mobile: altura definida pelo pai (app.css) */
+@media (max-width: 767px) {
+  :host {
+    height: 100%;
+  }
+}

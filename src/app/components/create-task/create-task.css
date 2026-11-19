@@ -39,9 +39,14 @@ input[type='date'].is-invalid {
   background-position: right 2rem center; /* posiciona o ícone de erro mais à esquerda */
 }
 
-/* No mobile o painel não tem borda lateral */
+/* Mobile: altura automática e borda superior */
 @media (max-width: 767px) {
+  :host {
+    height: auto;
+  }
+
   .create-task-panel {
+    height: auto;
     border-left: none;
     border-top: 1px solid #2a2e3f;
   }
