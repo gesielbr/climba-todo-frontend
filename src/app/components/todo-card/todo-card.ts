@@ -47,23 +47,32 @@ export class TodoCardComponent {
     this.editDateError.set(null); // limpa erro anterior
 
     if (dateStr) {
-      const parsed = new Date(dateStr);
-      if (isNaN(parsed.getTime())) {
+      // Extrai ano, mês e dia da string "yyyy-MM-dd" (sem fuso horário)
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) {
+        this.editDateError.set('Data inválida.');
+        return;
+      }
+
+      const ano = Number(parts[0]);
+      const mes = Number(parts[1]) - 1; // mês começa em 0
+      const dia = Number(parts[2]);
+
+      const escolhida = new Date(ano, mes, dia); // data local
+      if (isNaN(escolhida.getTime())) {
         this.editDateError.set('Data inválida.');
         return;
       }
 
       const hoje = new Date();
       hoje.setHours(0, 0, 0, 0);
-      const escolhida = new Date(parsed);
-      escolhida.setHours(0, 0, 0, 0);
 
       if (escolhida < hoje) {
         this.editDateError.set('A data não pode ser no passado.');
         return;
       }
 
-      dueDate = parsed.toISOString();
+      dueDate = escolhida.toISOString();
     }
 
     this.onEdit.emit({
