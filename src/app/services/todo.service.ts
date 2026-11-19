@@ -8,7 +8,7 @@ import { Todo, CreateTodoDto, UpdateTodoDto } from '../models/todo.model';
 })
 export class TodoService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://climba-todo.vercel.app/api/todos';
+  private apiUrl = 'https://climba-todo-one.vercel.app/api/todos';
 
   private todosSignal = signal<Todo[]>([]);
   public todos = this.todosSignal.asReadonly();
