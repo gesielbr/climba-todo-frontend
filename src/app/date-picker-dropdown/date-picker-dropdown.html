@@ -1,0 +1,95 @@
+<div class="row g-1 mb-3 date-picker-dropdown" (focusout)="onFocusOutDropdown($event)">
+  <div class="col-12">
+    <div class="position-relative date-picker-dropdown__control">
+      <input
+        #inputDropdownRef
+        type="text"
+        class="form-control form-control-sm text-white border-secondary p-2 date-picker-dropdown__input"
+        [class.date-picker-dropdown__input--invalid]="
+          isInvalidDropdown() || hasTypedErrorDropdown()
+        "
+        placeholder="dd/mm/aaaa"
+        autocomplete="off"
+        [value]="displayValueDropdown()"
+        (input)="onInputDropdown($event)"
+        (keydown.enter)="onEnterDropdown($event)"
+        (focus)="openDropdown()"
+      />
+      <button
+        type="button"
+        tabindex="-1"
+        class="btn p-0 border-0 bg-transparent position-absolute top-50 end-0 translate-middle-y me-2 date-picker-dropdown__icon-button"
+        aria-label="Abrir calendário"
+        (click)="toggleDropdown()"
+      >
+        <i
+          tabindex="0"
+          class="bi bi-calendar3 date-picker-dropdown__icon"
+          (keydown.enter)="toggleDropdown(); $event.preventDefault()"
+          (keydown.space)="toggleDropdown(); $event.preventDefault()"
+        ></i>
+      </button>
+    </div>
+  </div>
+
+  @if (isOpenDropdown()) {
+    <div class="col-12 mt-3">
+      <div class="date-picker-dropdown__menu">
+        <div class="dropdown-calendar">
+          <div class="row align-items-center mb-2 dropdown-calendar__header">
+            <div class="col-2 text-start">
+              <button
+                type="button"
+                class="dropdown-calendar__nav-button"
+                aria-label="Mês anterior"
+                (click)="prevMonthDropdown()"
+              >
+                ◀
+              </button>
+            </div>
+            <div class="col-8 text-center">
+              <span class="dropdown-calendar__title">{{ monthLabelDropdown() }}</span>
+            </div>
+            <div class="col-2 text-end">
+              <button
+                type="button"
+                class="dropdown-calendar__nav-button"
+                aria-label="Próximo mês"
+                (click)="nextMonthDropdown()"
+              >
+                ▶
+              </button>
+            </div>
+          </div>
+
+          <div class="dropdown-calendar__weekdays">
+            <span class="dropdown-calendar__weekday">D</span>
+            <span class="dropdown-calendar__weekday">S</span>
+            <span class="dropdown-calendar__weekday">T</span>
+            <span class="dropdown-calendar__weekday">Q</span>
+            <span class="dropdown-calendar__weekday">Q</span>
+            <span class="dropdown-calendar__weekday">S</span>
+            <span class="dropdown-calendar__weekday">S</span>
+          </div>
+
+          <div class="dropdown-calendar__days">
+            @for (day of calendarDaysDropdown(); track $index) {
+              <button
+                type="button"
+                class="dropdown-calendar__day"
+                [attr.tabindex]="day ? 0 : -1"
+                [class.dropdown-calendar__day--empty]="!day"
+                [class.dropdown-calendar__day--selected]="isSelectedDropdown(day)"
+                [class.dropdown-calendar__day--today]="isTodayDropdown(day)"
+                [disabled]="!day"
+                (click)="selectDayDropdown(day)"
+              >
+                {{ day ? day.getDate() : '' }}
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

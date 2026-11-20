@@ -1,25 +1,23 @@
 /* =========================================
-   1. ESTRUTURA E LAYOUT
+   CORES E ESTILOS VISUAIS: create-task-panel
    ========================================= */
-:host {
-  display: block;
-  height: 100%;
-}
-
 .create-task-panel {
   background-color: var(--bg-sidebar);
   border-left: 1px solid #2a2e3f;
-  overflow-y: auto;
-  height: 100%;
+  color: #ffffff;
+}
+
+.date-placeholder {
+  color: #565f89;
 }
 
 /* =========================================
-   2. FORMULÁRIO (INPUTS E TEXTAREA)
+   FORMULÁRIO (CORES E BORDAS)
    ========================================= */
 .form-control {
   background-color: var(--bg-input);
   border: 1px solid #3b4261;
-  color: white;
+  color: #ffffff;
   border-radius: 8px;
 }
 
@@ -28,12 +26,12 @@
 }
 
 /* =========================================
-   3. BOTÕES
+   BOTÕES (CORES E ESTADOS VISUAIS)
    ========================================= */
 .btn-important {
   background-color: #3b82f6;
   border-color: #3b82f6;
-  color: #fff;
+  color: #ffffff;
 }
 
 .btn-important:hover {
@@ -45,58 +43,34 @@
   background-color: rgba(25, 135, 84, 0.4);
   border-color: transparent;
   color: rgba(255, 255, 255, 0.5);
-  opacity: 1; /* anula o opacity padrão do Bootstrap */
+  opacity: 1;
   cursor: not-allowed;
 }
 
 /* =========================================
-   4. INPUT DE DATA (NATIVO + ESTADOS)
+   INPUT DE DATA NATIVO (CORES E ÍCONE)
    ========================================= */
 input[type='date'] {
-  -webkit-appearance: auto !important; /* Restaura o comportamento nativo (essencial para mobile) */
-  appearance: auto !important;
   background-color: var(--bg-input);
   border: 1px solid #3b4261;
-  color: white;
+  color: #ffffff;
   border-radius: 8px;
-  padding: 0.375rem 0.75rem;
 }
 
-/* Ícone do calendário nativo (branco no tema escuro) */
 input[type='date']::-webkit-calendar-picker-indicator {
-  display: block !important;
-  opacity: 1 !important;
+  opacity: 1;
   cursor: pointer;
 }
 
-/* Máscara dd/mm/aaaa (texto branco) */
 input[type='date']::-webkit-datetime-edit {
-  color: white;
+  color: #ffffff;
 }
 
-/* Estado de erro (remove o ícone do Bootstrap e afasta o calendário) */
 input[type='date'].is-invalid {
-  background-image: none !important; /* Remove o SVG de erro do Bootstrap */
+  background-image: none;
   border-color: #dc3545;
-  padding-right: 2.5rem; /* Espaço para o calendário não encostar na borda */
 }
 
-/* Texto da máscara quando inválido (vermelho) */
 input[type='date'].is-invalid::-webkit-datetime-edit {
   color: #dc3545;
-}
-
-/* =========================================
-   5. RESPONSIVIDADE
-   ========================================= */
-@media (max-width: 767px) {
-  :host {
-    height: auto;
-  }
-
-  .create-task-panel {
-    height: auto;
-    border-left: none;
-    border-top: 1px solid #2a2e3f;
-  }
 }

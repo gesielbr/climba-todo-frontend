@@ -1,0 +1,167 @@
+/* =========================================
+   ESTILOS VISUAIS: date-picker-dropdown
+   ========================================= */
+.date-picker-dropdown__input {
+  background-color: var(--bg-input);
+  padding-right: 2.5rem;
+}
+
+.date-picker-dropdown__input::placeholder {
+  color: #565f89;
+  opacity: 1;
+}
+
+.date-picker-dropdown__input--invalid {
+  border-color: #dc3545;
+  padding-right: 4.5rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 2.5rem center;
+  background-size: calc(1em + 0.5rem) calc(1em + 0.5rem);
+}
+
+.date-picker-dropdown__icon-button {
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+}
+
+.date-picker-dropdown__icon:focus-visible::before,
+.date-picker-dropdown__icon-button:focus-visible .date-picker-dropdown__icon::before {
+  border-color: var(--purple-accent);
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+}
+
+:focus-visible {
+  outline: unset;
+}
+
+.dropdown-calendar__nav-button {
+  background-color: transparent;
+  border: none;
+  color: #7aa2f7;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  outline: none;
+}
+
+.dropdown-calendar__nav-button:hover,
+.dropdown-calendar__nav-button:focus-visible {
+  background-color: #2a2e3f;
+  border-color: var(--purple-accent);
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+}
+
+.dropdown-calendar__day {
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.dropdown-calendar__day:hover:not(:disabled):not(.dropdown-calendar__day--empty) {
+  background-color: #2a2e3f;
+}
+
+.dropdown-calendar__day:focus-visible:not(:disabled):not(.dropdown-calendar__day--empty) {
+  background-color: #2a2e3f;
+  border-color: var(--purple-accent);
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+  color: #ffffff;
+}
+
+.date-picker-dropdown__icon {
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.date-picker-dropdown__menu {
+  position: fixed;
+  z-index: 1050;
+  min-width: auto;
+}
+
+/* =========================================
+   ESTILOS VISUAIS: dropdown-calendar
+   ========================================= */
+.dropdown-calendar {
+  background-color: #1f2335;
+  border: 1px solid #3b4261;
+  border-radius: 8px;
+  padding: 0.75rem;
+  width: 280px;
+  color: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.dropdown-calendar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.dropdown-calendar__title {
+  color: #ffffff;
+}
+
+.dropdown-calendar__nav-button {
+  background-color: transparent;
+  border: none;
+  color: #7aa2f7;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.dropdown-calendar__nav-button:hover {
+  background-color: #2a2e3f;
+}
+
+.dropdown-calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  color: #565f89;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.dropdown-calendar__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dropdown-calendar__day {
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.dropdown-calendar__day:hover:not(:disabled):not(.dropdown-calendar__day--empty) {
+  background-color: #2a2e3f;
+}
+
+.dropdown-calendar__day--empty {
+  cursor: default;
+}
+
+.dropdown-calendar__day--selected {
+  background-color: #a855f7;
+  color: #ffffff;
+}
+
+.dropdown-calendar__day--today {
+  border: 1px solid #7aa2f7;
+}

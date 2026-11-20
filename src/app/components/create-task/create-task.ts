@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { TodoService } from '../../services/todo.service';
+import { DatePickerDropdown } from '../../date-picker-dropdown/date-picker-dropdown';
 
 function dataNaoPassadaValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -43,7 +44,7 @@ function dataNaoPassadaValidator(): ValidatorFn {
 @Component({
   selector: 'app-create-task',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DatePickerDropdown],
   templateUrl: './create-task.html',
   styleUrls: ['./create-task.css'],
 })
@@ -79,5 +80,11 @@ export class CreateTask {
           error: (err) => console.error('Erro ao criar', err),
         });
     }
+  }
+
+  get isDueDateInvalid(): boolean {
+    const dueDateControl = this.taskForm.get('dueDate');
+    if (!dueDateControl) return false;
+    return Boolean(dueDateControl.invalid && (dueDateControl.touched || dueDateControl.dirty));
   }
 }
