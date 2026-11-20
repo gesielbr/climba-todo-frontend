@@ -33,11 +33,6 @@ body {
 
 .form-control,
 .form-select {
-  background-color: var(--bg-input);
-  border: 1px solid #3b4261;
-  color: white;
-  border-radius: 8px;
-
   &:focus {
     background-color: var(--bg-input);
     color: white;
