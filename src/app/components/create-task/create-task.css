@@ -39,6 +39,30 @@ input[type='date'].is-invalid {
   background-position: right 2rem center; /* posiciona o ícone de erro mais à esquerda */
 }
 
+/* .date-input-wrapper {
+  position: relative;
+}
+
+.date-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  color: #565f89;
+  pointer-events: none;
+  z-index: 1;
+  font-size: 0.875rem;
+} */
+
+/* .date-input-wrapper input[type='date'] {
+  position: relative;
+  z-index: 0;
+}
+
+input[type='date'].date-empty::-webkit-datetime-edit {
+  color: transparent;
+} */
+
 /* Mobile: altura automática e borda superior */
 @media (max-width: 767px) {
   :host {
