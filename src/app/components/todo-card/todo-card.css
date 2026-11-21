@@ -1,7 +1,4 @@
-:host {
-  display: block;
-}
-
+/* Card */
 .todo-card {
   background-color: var(--bg-card);
   border-radius: 12px;
@@ -9,28 +6,31 @@
   cursor: pointer;
 }
 
+.todo-card:hover {
+  transform: none;
+}
+
+/* Sobreposição do card em edição */
+.todo-card.editing-card {
+  position: relative;
+  z-index: 1061;
+}
+
+/* Estado ativo */
 .todo-card.active-card .icon-box {
   background-color: #ffffff;
-}
-
-.text-content h6 {
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.todo-card:hover {
-  transform: translateY(-2px);
 }
 
 .todo-card.active-card .text-white-50 {
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
+/* Estado concluído */
 .todo-card.completed {
-  opacity: 0.6;
   text-decoration: line-through;
 }
 
+/* Checkbox */
 .custom-checkbox {
   width: 20px;
   height: 20px;
@@ -45,6 +45,7 @@
   border-color: var(--purple-accent);
 }
 
+/* Ícone */
 .icon-box {
   width: 40px;
   height: 40px;
@@ -52,12 +53,33 @@
   flex-shrink: 0;
 }
 
+/* Conteúdo */
 .text-content {
-  min-width: 0; /* permite o text-truncate funcionar dentro do flex */
+  min-width: 0;
+}
+
+.text-content h6 {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .description {
   max-width: 200px;
+}
+
+/* Botões */
+.btn-action {
+  background: transparent;
+  border: none;
+  color: #565f89;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 1.2rem;
+}
+
+.btn-action:hover {
+  color: #7aa2f7;
 }
 
 .btn-delete {
@@ -73,43 +95,12 @@
   color: #f7768e;
 }
 
-.btn-action {
-  background: transparent;
-  border: none;
-  color: #565f89;
-  padding: 0;
-  cursor: pointer;
-  transition: color 0.2s;
-  font-size: 1.2rem;
-}
-
-.btn-action:hover {
-  color: #7aa2f7;
-}
-
-.btn-delete:hover {
-  color: #f7768e;
-}
-
+/* Campos de edição */
 .edit-fields input {
   background-color: var(--bg-input);
   border: 1px solid #3b4261;
   color: white;
   padding: 0.55rem 0.75rem;
-}
-
-.badge-status {
-  font-size: 0.8rem;
-  padding: 2px 8px;
-  border-radius: 12px;
-  background-color: rgba(247, 118, 142, 0.35); /* 👈 mais opaco */
-  color: #ff5c77; /* 👈 vermelho mais vibrante */
-  white-space: nowrap;
-}
-
-.badge-status.completed {
-  background-color: rgba(80, 236, 36, 0.8); /* 👈 fundo mais claro */
-  color: #fff; /* 👈 letra escura (contraste com o fundo claro) */
 }
 
 .edit-fields input.is-invalid {
@@ -120,8 +111,24 @@
   font-size: 0.75rem;
 }
 
+/* Status */
+.badge-status {
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background-color: rgba(247, 118, 142, 0.35);
+  color: #ff5c77;
+  white-space: nowrap;
+}
+
+.badge-status.completed {
+  background-color: rgba(80, 236, 36, 0.8);
+  color: #fff;
+}
+
+/* Ícones de ação */
 .bi-check-lg {
-  color: #4ade80 !important; /* verde, por exemplo */
+  color: #4ade80 !important;
   font-size: 1.5rem !important;
 }
 
@@ -130,13 +137,7 @@
   font-weight: bolder !important;
 }
 
-/* Afasta o ícone de erro do calendário */
-input[type='date'].is-invalid {
-  padding-right: 0, 5rem; /* espaço para o ícone de erro + calendário */
-  background-position: right 2.5rem center; /* posiciona o ícone de erro mais à esquerda */
-}
-
-/* Mobile: descrição ocupa mais espaço */
+/* Mobile */
 @media (max-width: 575px) {
   .description {
     max-width: 140px;

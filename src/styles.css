@@ -1,29 +1,41 @@
-/* src/styles.scss */
+/* ========================================
+   GLOBAL
+======================================== */
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
+  height: auto;
   margin: 0;
   padding: 0;
-}
-
-body {
-  background-color: #1a1b26; /* Fundo escuro do layout */
+  background-color: #1a1b26;
   color: #ffffff;
-  font-family: 'Inter', sans-serif; /* Sugestão de fonte */
+  font-family: 'Inter', sans-serif;
 }
 
-/* Cores customizadas baseadas na imagem */
+html {
+  min-height: 100vh;
+}
+
+/* ========================================
+   THEME
+======================================== */
+
 :root {
+  --bg-app: #1a1b26;
   --bg-sidebar: #16161e;
   --bg-card: #24283b;
-  --bg-card-active: #3b82f6; /* Azul do card "Wake up Buddy" */
+  --bg-card-active: #3b82f6;
   --bg-input: #1f2335;
+
   --text-muted: #7aa2f7;
   --purple-accent: #a855f7;
 }
 
-/* Ajustes no Bootstrap para o tema escuro */
+/* ========================================
+   BOOTSTRAP CUSTOMIZATION
+======================================== */
+
 .card {
   background-color: var(--bg-card);
   border: none;
@@ -37,7 +49,7 @@ body {
     background-color: var(--bg-input);
     color: white;
     border-color: var(--purple-accent);
-    box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+    box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--purple-accent) 25%, transparent);
   }
 }
 
@@ -48,17 +60,25 @@ body {
   border-radius: 8px;
 
   &:hover {
-    background-color: darken(#a855f7, 10%);
+    background-color: color-mix(in srgb, var(--purple-accent) 90%, black);
     color: white;
   }
 }
 
-input[type='date']::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-  font-size: 1.1rem;
+/* ========================================
+   INPUT CUSTOMIZATION
+======================================== */
+
+input[type='date'] {
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
 }
 
-input[type='search']::-webkit-search-cancel-button {
-  -webkit-appearance: searchfield-cancel-button !important;
-  font-size: 1rem !important;
+input[type='search'] {
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button !important;
+    font-size: 1rem !important;
+  }
 }

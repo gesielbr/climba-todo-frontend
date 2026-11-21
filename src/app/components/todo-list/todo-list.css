@@ -1,9 +1,10 @@
-:host {
-  display: block;
-  height: 100%;
-  overflow: hidden;
-}
+/* =========================================
+   COMPONENTE PRINCIPAL
+   ========================================= */
 
+/* =========================================
+   CONTAINER DA LISTA
+   ========================================= */
 .todo-list-container {
   height: 100%;
   overflow-y: auto;
@@ -11,10 +12,30 @@
   flex-direction: column;
 }
 
+/* =========================================
+   LISTA DE TAREFAS
+   ========================================= */
 .list {
   flex: 1;
 }
 
+/* Sobreposição dos cards */
+.list app-todo-card {
+  position: relative;
+  z-index: 0;
+}
+
+.list app-todo-card.editing-card {
+  z-index: 10;
+}
+
+.list app-todo-card.calendar-open-card {
+  z-index: 20;
+}
+
+/* =========================================
+   NAVEGAÇÃO
+   ========================================= */
 .btn-arrow {
   width: 45px;
   height: 45px;
@@ -23,10 +44,16 @@
   justify-content: center;
 }
 
+/* =========================================
+   DATA
+   ========================================= */
 .date-label {
   color: var(--text-muted);
 }
 
+/* =========================================
+   CAMPO DE PESQUISA
+   ========================================= */
 .search-box {
   position: relative;
 }
@@ -59,7 +86,11 @@
   color: #565f89;
 }
 
-/* Mobile: reduz padding e tamanho do botão */
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+
+/* Mobile: até 575px */
 @media (max-width: 575px) {
   .todo-list-container {
     padding: 1rem !important;
@@ -71,7 +102,7 @@
   }
 }
 
-/* Mobile: altura definida pelo pai (app.css) */
+/* Mobile: até 767px */
 @media (max-width: 767px) {
   :host {
     height: 100%;

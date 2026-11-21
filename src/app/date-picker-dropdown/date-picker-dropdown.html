@@ -15,6 +15,7 @@
         (keydown.enter)="onEnterDropdown($event)"
         (focus)="openDropdown()"
       />
+
       <button
         type="button"
         tabindex="-1"
@@ -29,67 +30,69 @@
           (keydown.space)="toggleDropdown(); $event.preventDefault()"
         ></i>
       </button>
-    </div>
-  </div>
 
-  @if (isOpenDropdown()) {
-    <div class="col-12 mt-3">
-      <div class="date-picker-dropdown__menu">
-        <div class="dropdown-calendar">
-          <div class="row align-items-center mb-2 dropdown-calendar__header">
-            <div class="col-2 text-start">
-              <button
-                type="button"
-                class="dropdown-calendar__nav-button"
-                aria-label="Mês anterior"
-                (click)="prevMonthDropdown()"
-              >
-                ◀
-              </button>
-            </div>
-            <div class="col-8 text-center">
-              <span class="dropdown-calendar__title">{{ monthLabelDropdown() }}</span>
-            </div>
-            <div class="col-2 text-end">
-              <button
-                type="button"
-                class="dropdown-calendar__nav-button"
-                aria-label="Próximo mês"
-                (click)="nextMonthDropdown()"
-              >
-                ▶
-              </button>
-            </div>
-          </div>
+      @if (isOpenDropdown()) {
+        <div class="date-picker-dropdown__menu">
+          <div class="dropdown-calendar">
+            <div class="row align-items-center mb-2 dropdown-calendar__header">
+              <div class="col-2 text-start">
+                <button
+                  type="button"
+                  class="dropdown-calendar__nav-button"
+                  aria-label="Mês anterior"
+                  (click)="prevMonthDropdown()"
+                >
+                  ◀
+                </button>
+              </div>
 
-          <div class="dropdown-calendar__weekdays">
-            <span class="dropdown-calendar__weekday">D</span>
-            <span class="dropdown-calendar__weekday">S</span>
-            <span class="dropdown-calendar__weekday">T</span>
-            <span class="dropdown-calendar__weekday">Q</span>
-            <span class="dropdown-calendar__weekday">Q</span>
-            <span class="dropdown-calendar__weekday">S</span>
-            <span class="dropdown-calendar__weekday">S</span>
-          </div>
+              <div class="col-8 text-center">
+                <span class="dropdown-calendar__title">
+                  {{ monthLabelDropdown() }}
+                </span>
+              </div>
 
-          <div class="dropdown-calendar__days">
-            @for (day of calendarDaysDropdown(); track $index) {
-              <button
-                type="button"
-                class="dropdown-calendar__day"
-                [attr.tabindex]="day ? 0 : -1"
-                [class.dropdown-calendar__day--empty]="!day"
-                [class.dropdown-calendar__day--selected]="isSelectedDropdown(day)"
-                [class.dropdown-calendar__day--today]="isTodayDropdown(day)"
-                [disabled]="!day"
-                (click)="selectDayDropdown(day)"
-              >
-                {{ day ? day.getDate() : '' }}
-              </button>
-            }
+              <div class="col-2 text-end">
+                <button
+                  type="button"
+                  class="dropdown-calendar__nav-button"
+                  aria-label="Próximo mês"
+                  (click)="nextMonthDropdown()"
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+
+            <div class="dropdown-calendar__weekdays">
+              <span class="dropdown-calendar__weekday">D</span>
+              <span class="dropdown-calendar__weekday">S</span>
+              <span class="dropdown-calendar__weekday">T</span>
+              <span class="dropdown-calendar__weekday">Q</span>
+              <span class="dropdown-calendar__weekday">Q</span>
+              <span class="dropdown-calendar__weekday">S</span>
+              <span class="dropdown-calendar__weekday">S</span>
+            </div>
+
+            <div class="dropdown-calendar__days">
+              @for (day of calendarDaysDropdown(); track $index) {
+                <button
+                  type="button"
+                  class="dropdown-calendar__day"
+                  [attr.tabindex]="day ? 0 : -1"
+                  [class.dropdown-calendar__day--empty]="!day"
+                  [class.dropdown-calendar__day--selected]="isSelectedDropdown(day)"
+                  [class.dropdown-calendar__day--today]="isTodayDropdown(day)"
+                  [disabled]="!day"
+                  (click)="selectDayDropdown(day)"
+                >
+                  {{ day ? day.getDate() : '' }}
+                </button>
+              }
+            </div>
           </div>
         </div>
-      </div>
+      }
     </div>
-  }
+  </div>
 </div>

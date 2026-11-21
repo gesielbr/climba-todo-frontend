@@ -1,20 +1,49 @@
-<div class="container-fluid p-0 app-layout">
-  <div class="row g-0 h-100">
-    <div class="col-auto d-none d-md-block h-100">
+<div class="row g-0">
+  <!-- xs (<576px) - mostrar apenas no extra small -->
+  <div class="col-12 d-block d-sm-none bg-danger text-white p-3 text-center">XS (<576px)</div>
+
+  <!-- sm (≥576px) - mostrar apenas no small -->
+  <div class="col-12 d-none d-sm-block d-md-none bg-warning text-dark p-3 text-center">
+    SM (≥576px)
+  </div>
+
+  <!-- md (≥768px) - mostrar apenas no medium -->
+  <div class="col-12 d-none d-md-block d-lg-none bg-success text-white p-3 text-center">
+    MD (≥768px)
+  </div>
+
+  <!-- lg (≥992px) - mostrar apenas no large -->
+  <div class="col-12 d-none d-lg-block d-xl-none bg-primary text-white p-3 text-center">
+    LG (≥992px)
+  </div>
+
+  <!-- xl (≥1200px) - mostrar apenas no extra large -->
+  <div class="col-12 d-none d-xl-block d-xxl-none bg-info text-dark p-3 text-center">
+    XL (≥1200px)
+  </div>
+
+  <!-- xxl (≥1400px) - mostrar apenas no extra extra large -->
+  <div class="col-12 d-none d-xxl-block bg-dark text-white p-3 text-center">XXL (≥1400px)</div>
+</div>
+
+<section class="container-fluid app-layout h-100">
+  <div class="row g-0">
+    <!-- Sidebar -->
+    <div class="col-12 col-sm-1">
       <app-sidebar></app-sidebar>
     </div>
 
-    <div class="col-12 col-md h-100 overflow-hidden">
+    <!-- Lista de tarefas -->
+    <div class="col-12 col-sm-6 col-md-7 col-lg-7 col-xl-7">
       <app-todo-list
-        class="d-block h-100"
         [searchTerm]="searchTerm()"
         (searchTermChange)="searchTerm.set($event)"
-      >
-      </app-todo-list>
+      ></app-todo-list>
     </div>
 
-    <div class="col-12 col-md-auto h-md-100">
-      <app-create-task class="d-block h-100" (formFocused)="searchTerm.set('')"> </app-create-task>
+    <!-- Criar tarefa -->
+    <div class="col-12 col-sm-5 col-md-4 col-lg-4 col-xl-4">
+      <app-create-task (formFocused)="searchTerm.set('')"></app-create-task>
     </div>
   </div>
-</div>
+</section>

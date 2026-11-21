@@ -6,6 +6,7 @@ import {
   forwardRef,
   inject,
   input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -53,6 +54,7 @@ export class DatePickerDropdown implements ControlValueAccessor, Validator {
   selectedDateDropdown = signal<Date | null>(null);
   isInvalidDropdown = input<boolean>(false);
   validationErrorDropdown = signal<ValidationErrors | null>(null);
+  dropdownOpenChange = output<boolean>();
 
   hasTypedErrorDropdown = computed(() => {
     const rawDropdown = this.displayValueDropdown().trim();
@@ -116,17 +118,21 @@ export class DatePickerDropdown implements ControlValueAccessor, Validator {
     if (this.suppressOpenOnFocusDropdown) {
       return;
     }
+
     if (this.selectedDateDropdown()) {
       const selectedDropdown = this.selectedDateDropdown()!;
       this.currentMonthDropdown.set(
         new Date(selectedDropdown.getFullYear(), selectedDropdown.getMonth(), 1),
       );
     }
+
     this.isOpenDropdown.set(true);
+    this.dropdownOpenChange.emit(true);
   }
 
   closeDropdown(): void {
     this.isOpenDropdown.set(false);
+    this.dropdownOpenChange.emit(false);
   }
 
   toggleDropdown(): void {
