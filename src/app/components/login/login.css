@@ -1,6 +1,6 @@
 :root,
 :host {
-  --bg: #181922;
+  --bg: var(--bg-app);
   --surface: #222536;
   --surface-input: #1b1e2c;
   --border: #3b4159;
@@ -9,6 +9,12 @@
   --purple: #a649ef;
   --purple-light: #c184ff;
   --green: #16895e;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 .login {
@@ -243,5 +249,12 @@ button:focus-visible {
   input,
   button {
     min-height: 50px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .login:focus-within {
+    overflow-y: auto;
+    padding-bottom: 220px; /* espaço do teclado */
   }
 }
