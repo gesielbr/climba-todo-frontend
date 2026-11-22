@@ -149,7 +149,7 @@ export class DatePickerDropdown implements ControlValueAccessor, Validator {
     }
   }
 
-  onFocusOutDropdown(eventDropdown: FocusEvent): void {
+  /* onFocusOutDropdown(eventDropdown: FocusEvent): void {
     const nextFocusedDropdown = eventDropdown.relatedTarget as Node | null;
     if (
       !nextFocusedDropdown ||
@@ -158,7 +158,7 @@ export class DatePickerDropdown implements ControlValueAccessor, Validator {
       this.onTouchedDropdown();
       this.closeDropdown();
     }
-  }
+  } */
 
   @HostListener('document:click', ['$event'])
   onDocumentClickDropdown(eventDropdown: MouseEvent): void {
@@ -179,6 +179,17 @@ export class DatePickerDropdown implements ControlValueAccessor, Validator {
   // ==========================================
   // 4. NAVEGAÇÃO E SELEÇÃO NO CALENDÁRIO
   // ==========================================
+  onFocusOutDropdown(): void {
+    setTimeout(() => {
+      const activeElement = document.activeElement;
+
+      if (!activeElement || !this.elementRefDropdown.nativeElement.contains(activeElement)) {
+        this.onTouchedDropdown();
+        this.closeDropdown();
+      }
+    });
+  }
+
   prevMonthDropdown(): void {
     const currentDropdown = this.currentMonthDropdown();
     this.currentMonthDropdown.set(
