@@ -1,4 +1,5 @@
-:root {
+:root,
+:host {
   --bg: #181922;
   --surface: #222536;
   --surface-input: #1b1e2c;
@@ -12,20 +13,23 @@
 
 .login {
   background: var(--bg);
-  /* Fallback para navegadores antigos e suporte completo a dvh para mobile moderno */
+  color: var(--text);
+  width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
+  display: grid;
+  place-items: center;
 }
 
 .welcome {
-  /* Ajustado os paddings: Topo 0, Laterais dinâmicas, Fundo reduzido (16px) */
-  padding: 0 clamp(24px, 6vw, 42px) 24px;
+  width: 100%;
+  max-width: 520px;
+  padding: 16px clamp(24px, 6vw, 42px) 24px;
   text-align: center;
   border: 1px solid rgba(151, 160, 197, 0.16);
   border-radius: 28px;
   background: linear-gradient(155deg, rgba(37, 41, 59, 0.97), rgba(28, 30, 43, 0.98));
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
-  height: calc(var(--vh, 1vh) * 100);
 }
 
 .illustration {
@@ -33,7 +37,7 @@
   width: clamp(148px, 44vw, 184px);
   aspect-ratio: 1;
   place-items: center;
-  margin: 8px auto 10px;
+  margin: 0 auto 10px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(166, 73, 239, 0.12), transparent 69%);
 }
@@ -73,6 +77,7 @@ h1 span {
 }
 
 form {
+  width: 100%;
   margin-top: 26px;
   text-align: left;
 }
@@ -86,6 +91,7 @@ label {
 
 .field {
   position: relative;
+  width: 100%;
 }
 
 .field-icon {
@@ -104,6 +110,7 @@ input {
   padding: 0 15px 0 46px;
   color: var(--text);
   font: inherit;
+  font-size: 1rem; /* evita zoom no iOS */
   border: 1px solid var(--border);
   border-radius: 12px;
   outline: none;
@@ -159,15 +166,82 @@ button:focus-visible {
   }
 }
 
+/* MOBILE SEM SCROLL */
 @media (max-width: 575.98px) {
+  .login {
+    height: 100vh;
+    height: 100svh; /* altura real sem vazar */
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 0;
+    overflow: hidden;
+  }
+
   .welcome {
-    height: 100vh; /* fallback para navegadores antigos */
-    height: 100dvh; /* altura real visível, ajusta com a barra */
+    height: 100%;
+    width: 100%;
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
+    align-items: stretch;
+
+    padding: 12px 20px max(16px, env(safe-area-inset-bottom));
     overflow: hidden;
+  }
+
+  .illustration {
+    width: clamp(100px, 22dvh, 148px);
+    margin: 0 auto 6px;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 6vw, 2rem);
+  }
+
+  .intro {
+    font-size: 0.92rem;
+    margin-top: 10px;
+  }
+
+  form {
+    margin-top: 18px;
+    flex-shrink: 0;
+  }
+}
+
+/* CELULAR BAIXINHO - iPhone SE, etc */
+@media (max-width: 575.98px) and (max-height: 700px) {
+  .illustration {
+    width: 92px;
+  }
+
+  .eyebrow {
+    margin-bottom: 6px;
+    font-size: 0.66rem;
+  }
+
+  h1 {
+    font-size: 1.55rem;
+  }
+
+  .intro {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-top: 8px;
+  }
+
+  form {
+    margin-top: 14px;
+  }
+
+  input,
+  button {
+    min-height: 50px;
   }
 }

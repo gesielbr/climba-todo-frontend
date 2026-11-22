@@ -1,142 +1,136 @@
-<main class="container-fluid login">
-  <!-- Row centralizada -->
-  <div class="row d-flex justify-content-center">
-    <!-- Coluna de tamanho 6 em telas médias/grandes -->
-    <div class="col-12 col-sm-6">
-      <section class="welcome min-vh-100 min-vh-md-auto" aria-labelledby="welcome-title">
-        <div class="illustration" aria-hidden="true">
-          <svg class="task-art" viewBox="0 0 200 200" fill="none">
-            <defs>
-              <linearGradient
-                id="paper"
-                x1="48"
-                y1="35"
-                x2="151"
-                y2="164"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stop-color="#30364D" />
-                <stop offset="1" stop-color="#23283A" />
-              </linearGradient>
-            </defs>
+<main class="login">
+  <section class="welcome" aria-labelledby="welcome-title">
+    <div class="illustration" aria-hidden="true">
+      <svg class="task-art" viewBox="0 0 200 200" fill="none">
+        <defs>
+          <linearGradient
+            id="paper"
+            x1="48"
+            y1="35"
+            x2="151"
+            y2="164"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#30364D" />
+            <stop offset="1" stop-color="#23283A" />
+          </linearGradient>
+        </defs>
 
-            <circle cx="100" cy="100" r="82" fill="#A649EF" fill-opacity=".08" />
-            <circle
-              cx="100"
-              cy="100"
-              r="72"
-              stroke="#A649EF"
-              stroke-opacity=".22"
-              stroke-width="1.5"
-              stroke-dasharray="3 7"
-            />
+        <circle cx="100" cy="100" r="82" fill="#A649EF" fill-opacity=".08" />
+        <circle
+          cx="100"
+          cy="100"
+          r="72"
+          stroke="#A649EF"
+          stroke-opacity=".22"
+          stroke-width="1.5"
+          stroke-dasharray="3 7"
+        />
 
-            <rect
-              x="48"
-              y="35"
-              width="104"
-              height="128"
-              rx="17"
-              fill="url(#paper)"
-              stroke="#515975"
-              stroke-width="2"
-            />
-            <rect x="76" y="26" width="48" height="21" rx="10.5" fill="#A649EF" />
+        <rect
+          x="48"
+          y="35"
+          width="104"
+          height="128"
+          rx="17"
+          fill="url(#paper)"
+          stroke="#515975"
+          stroke-width="2"
+        />
+        <rect x="76" y="26" width="48" height="21" rx="10.5" fill="#A649EF" />
 
-            <rect x="65" y="64" width="17" height="17" rx="5" fill="#A649EF" />
+        <rect x="65" y="64" width="17" height="17" rx="5" fill="#A649EF" />
+        <path
+          d="m69 72.5 3.5 3.5 6-7"
+          stroke="white"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path d="M92 72.5h40" stroke="#A7AEC4" stroke-width="5" stroke-linecap="round" />
+
+        <rect
+          x="65"
+          y="98"
+          width="17"
+          height="17"
+          rx="5"
+          fill="#202437"
+          stroke="#737D9C"
+          stroke-width="2"
+        />
+        <path d="M92 106.5h33" stroke="#858DA8" stroke-width="5" stroke-linecap="round" />
+
+        <rect
+          x="65"
+          y="132"
+          width="17"
+          height="17"
+          rx="5"
+          fill="#202437"
+          stroke="#737D9C"
+          stroke-width="2"
+        />
+        <path d="M92 140.5h25" stroke="#858DA8" stroke-width="5" stroke-linecap="round" />
+
+        <circle cx="143" cy="140" r="23" fill="#16895E" stroke="#272B3D" stroke-width="5" />
+        <path
+          d="m133 140 6.5 6.5 13-14"
+          stroke="white"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <p class="eyebrow">PLANEJE · ACOMPANHE · CONCLUA</p>
+    <h1 id="welcome-title">Seu dia,<br /><span>em ordem.</span></h1>
+
+    <p class="intro">
+      Organize suas tarefas, acompanhe seu progresso e tire seus planos da cabeça.
+    </p>
+
+    <form id="entryForm" (submit)="entrar($event)">
+      <label for="nome">Como devemos chamar você?</label>
+
+      <div class="field">
+        <span class="field-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8" />
             <path
-              d="m69 72.5 3.5 3.5 6-7"
-              stroke="white"
-              stroke-width="2.4"
+              d="M5 20c.8-3.6 3.1-5.4 7-5.4s6.2 1.8 7 5.4"
+              stroke="currentColor"
+              stroke-width="1.8"
               stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path d="M92 72.5h40" stroke="#A7AEC4" stroke-width="5" stroke-linecap="round" />
-
-            <rect
-              x="65"
-              y="98"
-              width="17"
-              height="17"
-              rx="5"
-              fill="#202437"
-              stroke="#737D9C"
-              stroke-width="2"
-            />
-            <path d="M92 106.5h33" stroke="#858DA8" stroke-width="5" stroke-linecap="round" />
-
-            <rect
-              x="65"
-              y="132"
-              width="17"
-              height="17"
-              rx="5"
-              fill="#202437"
-              stroke="#737D9C"
-              stroke-width="2"
-            />
-            <path d="M92 140.5h25" stroke="#858DA8" stroke-width="5" stroke-linecap="round" />
-
-            <circle cx="143" cy="140" r="23" fill="#16895E" stroke="#272B3D" stroke-width="5" />
-            <path
-              d="m133 140 6.5 6.5 13-14"
-              stroke="white"
-              stroke-width="4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
             />
           </svg>
-        </div>
+        </span>
 
-        <p class="eyebrow">PLANEJE · ACOMPANHE · CONCLUA</p>
-        <h1 id="welcome-title">Seu dia,<br /><span>em ordem.</span></h1>
+        <input
+          id="nome"
+          name="nome"
+          type="text"
+          placeholder="Digite seu nome"
+          autocomplete="name"
+          autocapitalize="words"
+          maxlength="60"
+          required
+        />
+      </div>
 
-        <p class="intro">
-          Organize suas tarefas, acompanhe seu progresso e tire seus planos da cabeça.
-        </p>
-
-        <form id="entryForm" (submit)="entrar($event)">
-          <label for="nome">Como devemos chamar você?</label>
-
-          <div class="field">
-            <span class="field-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8" />
-                <path
-                  d="M5 20c.8-3.6 3.1-5.4 7-5.4s6.2 1.8 7 5.4"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </span>
-
-            <input
-              id="nome"
-              name="nome"
-              type="text"
-              placeholder="Digite seu nome"
-              autocomplete="name"
-              autocapitalize="words"
-              maxlength="60"
-              required
-            />
-          </div>
-
-          <button type="submit">
-            <span>Entrar</span>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M5 12h14m-6-6 6 6-6 6"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </form>
-      </section>
-    </div>
-  </div>
+      <button type="submit">
+        <span>Entrar</span>
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M5 12h14m-6-6 6 6-6 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </form>
+  </section>
 </main>
