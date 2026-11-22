@@ -12,7 +12,9 @@
 
 .login {
   background: var(--bg);
-  /* Removida a border amarela que estourava a altura de 100vh */
+  /* Fallback para navegadores antigos e suporte completo a dvh para mobile moderno */
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .welcome {
@@ -155,3 +157,13 @@ button:focus-visible {
     transform: translateY(-5px);
   }
 }
+
+/* @media (max-width: 575.98px) {
+  .welcome {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+} */
