@@ -1,1 +1,18 @@
+.page-scroll {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 
+  overscroll-behavior-y: contain; /* mata o elástico */
+  -webkit-overflow-scrolling: auto; /* nunca "touch" */
+
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.app-layout {
+  min-height: 100%;
+
+  .row {
+    min-height: 100%;
+  }
+}

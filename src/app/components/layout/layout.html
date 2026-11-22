@@ -1,21 +1,23 @@
-<section class="container-fluid app-layout">
-  <div class="row g-0 min-vh-100">
-    <!-- Sidebar -->
-    <div class="col-12 col-sm-1">
-      <app-sidebar></app-sidebar>
-    </div>
+<div class="page-scroll">
+  <section class="container-fluid app-layout">
+    <div class="row g-0 min-vh-100">
+      <!-- Sidebar -->
+      <div class="col-12 col-sm-1">
+        <app-sidebar></app-sidebar>
+      </div>
 
-    <!-- Lista de tarefas -->
-    <div class="col-12 col-sm-6 col-md-7 col-lg-7 col-xl-7">
-      <app-todo-list
-        [searchTerm]="searchTerm()"
-        (searchTermChange)="searchTerm.set($event)"
-      ></app-todo-list>
-    </div>
+      <!-- Lista de tarefas -->
+      <div class="col-12 col-sm-6 col-md-7 col-lg-7 col-xl-7">
+        <app-todo-list
+          [searchTerm]="searchTerm()"
+          (searchTermChange)="searchTerm.set($event)"
+        ></app-todo-list>
+      </div>
 
-    <!-- Criar tarefa -->
-    <div class="col-12 col-sm-5 col-md-4 col-lg-4 col-xl-4">
-      <app-create-task (formFocused)="searchTerm.set('')"></app-create-task>
+      <!-- Criar tarefa -->
+      <div class="col-12 col-sm-5 col-md-4 col-lg-4 col-xl-4">
+        <app-create-task (formFocused)="searchTerm.set('')"></app-create-task>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
