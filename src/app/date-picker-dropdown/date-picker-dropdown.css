@@ -80,24 +80,62 @@
   font-size: 1.2rem;
 }
 
-.date-picker-dropdown__menu {
+/* .date-picker-dropdown__menu {
   position: absolute;
   top: 100%;
   left: 0;
   z-index: 1060;
   min-width: 280px;
   margin-top: 8px;
+} */
+
+/* .date-picker-dropdown__menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1060;
+
+  width: 100%;
+  min-width: 280px;
+
+  margin-top: 8px;
+} */
+
+.date-picker-dropdown__menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1060;
+
+  width: 100%;
+  min-width: 280px;
+
+  margin-top: 8px;
 }
 
 /* =========================================
    ESTILOS VISUAIS: dropdown-calendar
    ========================================= */
-.dropdown-calendar {
+/* .dropdown-calendar {
   background-color: #1f2335;
   border: 1px solid #3b4261;
   border-radius: 8px;
   padding: 0.75rem;
   width: 280px;
+  color: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+} */
+
+.dropdown-calendar {
+  background-color: #1f2335;
+  border: 1px solid #3b4261;
+  border-radius: 8px;
+  padding: 0.75rem;
+
+  width: 100%;
+
   color: #ffffff;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 }

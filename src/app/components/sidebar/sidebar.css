@@ -44,3 +44,9 @@
     color: var(--purple-accent);
   }
 }
+
+@media (max-width: 575.99px) {
+  .sidebar {
+    border: none;
+  }
+}

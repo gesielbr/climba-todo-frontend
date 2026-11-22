@@ -3,7 +3,6 @@
   background-color: var(--bg-card);
   border-radius: 12px;
   transition: transform 0.2s;
-  cursor: pointer;
 }
 
 .todo-card:hover {
@@ -26,7 +25,7 @@
 }
 
 /* Estado concluído */
-.todo-card.completed {
+:host(.completed) {
   text-decoration: line-through;
 }
 
@@ -76,6 +75,7 @@
   cursor: pointer;
   transition: color 0.2s;
   font-size: 1.2rem;
+  line-height: 0;
 }
 
 .btn-action:hover {
@@ -112,7 +112,7 @@
 }
 
 /* Status */
-.badge-status {
+/* .badge-status {
   font-size: 0.8rem;
   padding: 2px 8px;
   border-radius: 12px;
@@ -123,6 +123,22 @@
 
 .badge-status.completed {
   background-color: rgba(80, 236, 36, 0.8);
+  color: #fff;
+} */
+
+.badge-status {
+  display: inline-block;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  letter-spacing: 0.3px;
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.badge-status.completed {
+  background-color: #198754;
   color: #fff;
 }
 
@@ -142,4 +158,47 @@
   .description {
     max-width: 140px;
   }
+}
+
+.bi::before {
+  /* suas propriedades aqui, ex: */
+  vertical-align: unset;
+}
+
+.todo-card:focus-within {
+  background-color: var(--bg-input);
+  color: white;
+  border-color: var(--purple-accent);
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+}
+
+.todo-card:focus-visible {
+  background-color: var(--bg-input);
+  color: white;
+  border-color: var(--purple-accent);
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+  outline: none;
+}
+
+/* Foco dos checkboxes */
+.form-check-input:focus-visible {
+  border-color: var(--purple-accent);
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+}
+
+/* Foco dos botões de ação */
+.btn-action:focus-visible {
+  outline: 0;
+  border-color: var(--purple-accent);
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+}
+
+.btn-action:focus-visible i {
+  color: var(--purple-accent);
+}
+
+.custom-checkbox:hover {
+  border-color: var(--purple-accent);
+  cursor: pointer;
 }

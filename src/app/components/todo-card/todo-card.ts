@@ -11,6 +11,7 @@ import { DatePickerDropdown } from '../../date-picker-dropdown/date-picker-dropd
   templateUrl: './todo-card.html',
   styleUrls: ['./todo-card.css'],
   host: {
+    '[class.completed]': 'todo().isCompleted',
     '[class.editing-card]': 'isEditing()',
     '[class.calendar-open-card]': 'isEditing() && isCalendarOpen()',
   },
