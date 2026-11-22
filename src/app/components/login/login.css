@@ -18,7 +18,7 @@
 }
 
 .login {
-  background: var(--bg);
+  background: linear-gradient(155deg, rgba(37, 41, 59, 0.97), rgba(28, 30, 43, 0.98));
   color: var(--text);
   width: 100%;
   min-height: 100vh;
@@ -34,7 +34,7 @@
   text-align: center;
   border: 1px solid rgba(151, 160, 197, 0.16);
   border-radius: 28px;
-  background: linear-gradient(155deg, rgba(37, 41, 59, 0.97), rgba(28, 30, 43, 0.98));
+  background: var(--bg-app);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
 }
 
@@ -181,6 +181,7 @@ button:focus-visible {
     min-height: 100svh;
     padding: 0;
     overflow: hidden;
+    border: unset;
   }
 
   .welcome {
