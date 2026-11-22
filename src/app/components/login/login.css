@@ -25,6 +25,7 @@
   border-radius: 28px;
   background: linear-gradient(155deg, rgba(37, 41, 59, 0.97), rgba(28, 30, 43, 0.98));
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 .illustration {
@@ -158,21 +159,15 @@ button:focus-visible {
   }
 }
 
-/* 1. Garanta que o body não tenha margens padrões que causam scroll */
-/* 2. Seu código com as correções */
 @media (max-width: 575.98px) {
   .welcome {
-    /* Fallback para navegadores antigos e a unidade moderna (dvh) */
-    height: 100vh;
-    height: 100dvh; /* O segredo para mobile: desconta a barra do navegador */
-
+    height: 100vh; /* fallback para navegadores antigos */
+    height: 100dvh; /* altura real visível, ajusta com a barra */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    /* Garante que nada passe do tamanho da tela */
-    overflow: hidden;
     box-sizing: border-box;
+    overflow: hidden;
   }
 }
