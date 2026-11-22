@@ -5,16 +5,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   height: 100%;
-
   border-right: 1px solid #2a2e3f;
 
-  /* Navegação */
   .nav {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
+    align-items: center;
   }
 }
 
@@ -22,16 +21,13 @@
    LOGO
    ========================================= */
 .logo-circle {
-  width: 36px;
-  height: 36px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-
-  background-color: var(--purple-accent);
-
+  background-color: #198754;
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 0.8rem;
   font-weight: 600;
   color: #ffffff;
@@ -40,24 +36,47 @@
 /* =========================================
    LINKS DE NAVEGAÇÃO
    ========================================= */
-.nav-link {
-  color: #ffffff;
-  opacity: 0.6;
-  transition:
-    opacity 0.2s,
-    color 0.2s;
-
-  padding: 0;
-
+.sidebar .nav-link {
+  color: #7b2cbf; /* Roxo base mais visível e elegante */
+  padding: 0.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
 
-  /* Estado ativo e hover */
-  &.active,
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease,
+    filter 0.2s ease;
+
+  /* Reseta qualquer estado de foco indesejado */
+  &:focus,
+  &:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Estado ATIVO (Rota atual selecionada) */
+  &.active {
+    color: #c77dff;
+    /* Neon limpo e controlado, sem "mancha" */
+    filter: drop-shadow(0 0 6px #9d4edd);
+  }
+
+  /* Estado HOVER (Passar o mouse) */
   &:hover {
-    opacity: 1;
-    color: var(--purple-accent);
+    color: #e0aaff;
+    transform: scale(1.15);
+    /* Efeito Neon em camadas super limpo */
+    filter: drop-shadow(0 0 4px #c77dff) drop-shadow(0 0 12px #9d4edd);
+  }
+
+  .bi {
+    line-height: 1;
+    display: block;
   }
 }
 
