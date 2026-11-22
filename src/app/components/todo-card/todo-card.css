@@ -1,4 +1,6 @@
-/* Card */
+/* =========================================
+   CARD: ESTRUTURA E APARÊNCIA
+   ========================================= */
 .todo-card {
   background-color: var(--bg-card);
   border-radius: 12px;
@@ -9,10 +11,29 @@
   transform: none;
 }
 
-/* Sobreposição do card em edição */
+/* Card em edição: sobreposição */
 .todo-card.editing-card {
   position: relative;
   z-index: 1061;
+}
+
+/* Foco no card ou em elementos internos */
+.todo-card:focus-within,
+.todo-card:focus-visible {
+  background-color: var(--bg-input);
+  color: white;
+  border-color: var(--purple-accent);
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+}
+
+/* Remove o contorno padrão quando o próprio card recebe foco */
+.todo-card:focus-visible {
+  outline: none;
+}
+
+/* Estado concluído */
+:host(.completed) {
+  text-decoration: line-through;
 }
 
 /* Estado ativo */
@@ -24,35 +45,11 @@
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Estado concluído */
-:host(.completed) {
-  text-decoration: line-through;
-}
+/* =========================================
+   CONTEÚDO DO CARD
+   ========================================= */
 
-/* Checkbox */
-.custom-checkbox {
-  width: 20px;
-  height: 20px;
-  background-color: transparent;
-  border: 2px solid #565f89;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.custom-checkbox:checked {
-  background-color: var(--purple-accent);
-  border-color: var(--purple-accent);
-}
-
-/* Ícone */
-.icon-box {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-}
-
-/* Conteúdo */
+/* Área de texto */
 .text-content {
   min-width: 0;
 }
@@ -62,40 +59,60 @@
   font-weight: 600;
 }
 
+/* Descrição */
 .description {
   max-width: 200px;
 }
 
-/* Botões */
-.btn-action {
-  background: transparent;
-  border: none;
-  color: #565f89;
-  padding: 0;
+/* =========================================
+   ÍCONE DO CARD
+   ========================================= */
+.icon-box {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+/* Alinhamento dos ícones Bootstrap */
+.bi::before {
+  /* suas propriedades aqui, ex: */
+  vertical-align: unset;
+}
+
+/* =========================================
+   CHECKBOX
+   ========================================= */
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border: 2px solid #565f89;
   cursor: pointer;
-  transition: color 0.2s;
-  font-size: 1.2rem;
-  line-height: 0;
+  flex-shrink: 0;
 }
 
-.btn-action:hover {
-  color: #7aa2f7;
+/* Checkbox marcado */
+.custom-checkbox:checked {
+  background-color: var(--purple-accent);
+  border-color: var(--purple-accent);
 }
 
-.btn-delete {
-  background: transparent;
-  border: none;
-  color: #565f89;
-  padding: 0;
-  cursor: pointer;
-  transition: color 0.2s;
+/* Hover do checkbox */
+.custom-checkbox:hover {
+  border-color: var(--purple-accent);
 }
 
-.btn-delete:hover {
-  color: #f7768e;
+/* Foco visível do checkbox */
+.form-check-input:focus-visible {
+  border-color: var(--purple-accent);
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
 }
 
-/* Campos de edição */
+/* =========================================
+   CAMPOS DE EDIÇÃO
+   ========================================= */
 .edit-fields input {
   background-color: var(--bg-input);
   border: 1px solid #3b4261;
@@ -103,15 +120,30 @@
   padding: 0.55rem 0.75rem;
 }
 
+/* Campo inválido */
 .edit-fields input.is-invalid {
   border-color: #f7768e;
 }
 
+/* Mensagens de erro */
 .edit-fields .text-danger {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
-/* Status */
+/* Ícone de erro no título */
+.title-input.is-invalid {
+  border-color: #dc3545;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: calc(1em + 0.5rem) calc(1em + 0.5rem);
+}
+
+/* =========================================
+   STATUS DA TAREFA
+   ========================================= */
+
 /* .badge-status {
   font-size: 0.8rem;
   padding: 2px 8px;
@@ -137,68 +169,90 @@
   color: #212529;
 }
 
+/* Status concluído */
 .badge-status.completed {
   background-color: #198754;
   color: #fff;
 }
 
-/* Ícones de ação */
-.bi-check-lg {
-  color: #4ade80 !important;
-  font-size: 1.5rem !important;
+/* =========================================
+   BOTÕES DE AÇÃO
+   ========================================= */
+.btn-action {
+  background: transparent;
+  border: none;
+  color: #565f89;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+  font-size: 1.2rem;
+  line-height: 0;
 }
 
-.bi-x-lg::before {
-  color: rgba(var(--bs-danger-rgb)) !important;
-  font-weight: bolder !important;
+/* Hover dos botões de ação */
+.btn-action:hover {
+  color: #7aa2f7;
 }
 
-/* Mobile */
-@media (max-width: 575px) {
-  .description {
-    max-width: 140px;
-  }
-}
-
-.bi::before {
-  /* suas propriedades aqui, ex: */
-  vertical-align: unset;
-}
-
-.todo-card:focus-within {
-  background-color: var(--bg-input);
-  color: white;
-  border-color: var(--purple-accent);
-  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
-}
-
-.todo-card:focus-visible {
-  background-color: var(--bg-input);
-  color: white;
-  border-color: var(--purple-accent);
-  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
-  outline: none;
-}
-
-/* Foco dos checkboxes */
-.form-check-input:focus-visible {
-  border-color: var(--purple-accent);
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
-}
-
-/* Foco dos botões de ação */
+/* Foco visível dos botões */
 .btn-action:focus-visible {
   outline: 0;
   border-color: var(--purple-accent);
   box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
 }
 
+/* Cor do ícone quando o botão recebe foco */
 .btn-action:focus-visible i {
   color: var(--purple-accent);
 }
 
-.custom-checkbox:hover {
-  border-color: var(--purple-accent);
+/* Botão desabilitado */
+.btn-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Ícone do botão de salvar desabilitado */
+.btn-action:disabled .bi-check-lg {
+  color: #6c757d !important;
+}
+
+/* Botão de exclusão */
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: #565f89;
+  padding: 0;
   cursor: pointer;
+  transition: color 0.2s;
+}
+
+/* Hover do botão de exclusão */
+.btn-delete:hover {
+  color: #f7768e;
+}
+
+/* =========================================
+   ÍCONES DOS BOTÕES
+   ========================================= */
+
+/* Ícone de confirmação */
+.bi-check-lg {
+  color: #4ade80 !important;
+  font-size: 1.5rem !important;
+}
+
+/* Ícone de cancelamento */
+.bi-x-lg::before {
+  color: rgba(var(--bs-danger-rgb)) !important;
+  font-weight: bolder !important;
+}
+
+/* =========================================
+   RESPONSIVIDADE: MOBILE
+   ========================================= */
+@media (max-width: 575px) {
+  .description {
+    max-width: 140px;
+  }
 }

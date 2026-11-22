@@ -12,6 +12,13 @@
       <!-- Título -->
       <div class="row g-1">
         <div class="col-12">
+          @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
+            <div class="col-12">
+              <small class="text-danger d-inline-block mb-2"
+                >Título é obrigatório (max 150 chars).</small
+              >
+            </div>
+          }
           <input
             type="text"
             class="form-control form-control-lg"
@@ -19,11 +26,6 @@
             formControlName="title"
           />
         </div>
-        @if (taskForm.get('title')?.invalid && taskForm.get('title')?.touched) {
-          <div class="col-12">
-            <small class="text-danger">Título é obrigatório (max 150 chars).</small>
-          </div>
-        }
       </div>
 
       <!-- Date picker em dropdown -->

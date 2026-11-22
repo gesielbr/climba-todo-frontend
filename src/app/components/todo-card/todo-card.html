@@ -10,11 +10,19 @@
       <div class="flex-grow-1">
         @if (isEditing()) {
           <div class="edit-fields">
+            <!-- Erro do título -->
+            @if (editTitleError()) {
+              <small class="text-danger d-block mb-2">
+                {{ editTitleError() }}
+              </small>
+            }
+
             <input
               type="text"
-              class="form-control form-control-sm mb-2"
+              class="form-control form-control-sm mb-2 title-input"
+              [class.is-invalid]="!!editTitleError()"
               [ngModel]="editTitle()"
-              (ngModelChange)="editTitle.set($event)"
+              (ngModelChange)="onEditTitleChange($event)"
               placeholder="Título"
             />
 
@@ -26,18 +34,19 @@
               placeholder="Descrição (opcional)"
             />
 
-            <app-date-picker-dropdown
-              [ngModel]="editDueDate()"
-              (ngModelChange)="editDueDate.set($event)"
-              [isInvalidDropdown]="!!editDateError()"
-              (dropdownOpenChange)="onCalendarOpenChange($event)"
-            />
-
+            <!-- Erro da data -->
             @if (editDateError()) {
-              <small class="text-danger d-block mt-1">
+              <small class="text-danger d-block mb-2">
                 {{ editDateError() }}
               </small>
             }
+
+            <app-date-picker-dropdown
+              [ngModel]="editDueDate()"
+              (ngModelChange)="onEditDueDateChange($event)"
+              [isInvalidDropdown]="!!editDateError()"
+              (dropdownOpenChange)="onCalendarOpenChange($event)"
+            />
           </div>
         } @else {
           <div class="text-content">
@@ -87,7 +96,13 @@
 
         @if (isEditing()) {
           <!-- Salvar -->
-          <button type="button" class="btn-action" (click)="saveEdit()" aria-label="Salvar">
+          <button
+            type="button"
+            class="btn-action"
+            (click)="saveEdit()"
+            aria-label="Salvar"
+            [disabled]="!!editTitleError() || !!editDateError()"
+          >
             <i class="bi bi-check-lg"></i>
           </button>
 

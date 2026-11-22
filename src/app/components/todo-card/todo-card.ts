@@ -43,6 +43,7 @@ export class TodoCardComponent {
   editDescription = signal('');
   editDueDate = signal('');
   editDateError = signal<string | null>(null);
+  editTitleError = signal<string | null>(null);
 
   // ==========================================
   // 3. CONTROLE DA EDIÇÃO
@@ -55,6 +56,7 @@ export class TodoCardComponent {
     this.editDueDate.set(d ? d.substring(0, 10) : '');
 
     this.editDateError.set(null);
+    this.editTitleError.set(null);
     this.isCalendarOpen.set(false);
     this.isEditing.set(true);
   }
@@ -63,6 +65,7 @@ export class TodoCardComponent {
     this.isEditing.set(false);
     this.isCalendarOpen.set(false);
     this.editDateError.set(null);
+    this.editTitleError.set(null);
   }
 
   // ==========================================
@@ -70,6 +73,61 @@ export class TodoCardComponent {
   // ==========================================
   onCalendarOpenChange(isOpen: boolean): void {
     this.isCalendarOpen.set(isOpen);
+  }
+
+  onEditDueDateChange(value: string): void {
+    this.editDueDate.set(value);
+    this.editDateError.set(null);
+
+    if (!value) return;
+
+    const parts = value.split('-');
+
+    if (parts.length !== 3) {
+      this.editDateError.set('Data inválida.');
+      return;
+    }
+
+    const ano = Number(parts[0]);
+    const mes = Number(parts[1]) - 1;
+    const dia = Number(parts[2]);
+
+    const escolhida = new Date(ano, mes, dia);
+
+    if (
+      isNaN(escolhida.getTime()) ||
+      escolhida.getFullYear() !== ano ||
+      escolhida.getMonth() !== mes ||
+      escolhida.getDate() !== dia
+    ) {
+      this.editDateError.set('Data inválida.');
+      return;
+    }
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    if (escolhida < hoje) {
+      this.editDateError.set('A data não pode ser no passado.');
+    }
+  }
+
+  onEditTitleChange(value: string): void {
+    this.editTitle.set(value);
+
+    const title = value.trim();
+
+    if (!title) {
+      this.editTitleError.set('Título é obrigatório.');
+      return;
+    }
+
+    if (title.length > 150) {
+      this.editTitleError.set('Título deve ter no máximo 150 caracteres.');
+      return;
+    }
+
+    this.editTitleError.set(null);
   }
 
   // ==========================================
