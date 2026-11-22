@@ -158,12 +158,21 @@ button:focus-visible {
   }
 }
 
+/* 1. Garanta que o body não tenha margens padrões que causam scroll */
+/* 2. Seu código com as correções */
 @media (max-width: 575.98px) {
   .welcome {
-    min-height: 100vh;
+    /* Fallback para navegadores antigos e a unidade moderna (dvh) */
+    height: 100vh;
+    height: 100dvh; /* O segredo para mobile: desconta a barra do navegador */
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    /* Garante que nada passe do tamanho da tela */
+    overflow: hidden;
+    box-sizing: border-box;
   }
 }
