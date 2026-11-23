@@ -161,78 +161,113 @@
     </div>
 
     <!-- ═══════════ PRAZO (sempre informativo) ═══════════ -->
-    <div class="col-12 col-md-4 col-lg-4 col-xl-2 cell cell-center rounded py-2">
+    <div class="col-12 col-md-4 col-lg-4 col-xl-2 cell rounded p-2 text-center">
       <span class="field-label">Prazo</span>
 
-      <small class="due-date" [class.no-date]="!todo().dueDate">
-        {{ todo().dueDate ? (todo().dueDate | date: 'dd/MM/yyyy' : 'UTC') : 'Sem data' }}
-      </small>
+      <div class="cell-content">
+        <small class="due-date">
+          {{ todo().dueDate ? (todo().dueDate | date: 'dd/MM/yyyy' : 'UTC') : 'Sem data' }}
+        </small>
+      </div>
     </div>
 
     <!-- ═══════════ STATUS ═══════════ -->
-    <div class="col-12 col-md-4 col-lg-6 col-xl-2 cell cell-center rounded p-2">
+    <div class="col-12 col-md-4 col-lg-6 col-xl-3 cell rounded p-2 text-center">
       <span class="field-label">Status</span>
 
-      <span class="badge-status" [class.completed]="todo().isCompleted">
-        <i
-          class="bi"
-          [class.bi-check2-circle]="todo().isCompleted"
-          [class.bi-hourglass-split]="!todo().isCompleted"
-        ></i>
-        {{ todo().isCompleted ? 'Concluída' : 'Pendente' }}
-      </span>
-    </div>
+      <div class="cell-content">
+        <div class="d-flex align-items-center justify-content-center gap-2">
+          <span class="badge-status" [class.completed]="todo().isCompleted">
+            <i
+              class="bi"
+              [class.bi-check2-circle]="todo().isCompleted"
+              [class.bi-hourglass-split]="!todo().isCompleted"
+            ></i>
+            {{ todo().isCompleted ? 'Concluída' : 'Pendente' }}
+          </span>
 
-    <!-- ═══════════ AÇÕES ═══════════ -->
-    <div class="col-12 col-md-4 col-lg-6 col-xl-3 cell cell-center rounded p-sm-0 p-2">
-      <span class="field-label">Ações</span>
-
-      <div class="d-flex align-items-center justify-content-between gap-2 actions-row">
-        <!-- Checkbox circular customizado -->
-        <!-- Concluir / reabrir: círculo com "preview" do check -->
-        <input
-          type="checkbox"
-          class="custom-checkbox"
-          [checked]="todo().isCompleted"
-          (change)="onToggle.emit(todo().id)"
-          [attr.aria-label]="
-            todo().isCompleted ? 'Marcar tarefa como pendente' : 'Marcar tarefa como concluída'
-          "
-          [title]="todo().isCompleted ? 'Marcar como pendente' : 'Marcar como concluída'"
-        />
-
-        @if (isEditing()) {
-          <!-- Salvar -->
+          <!-- Alternar status -->
           <button
             type="button"
             class="btn-action"
-            (click)="saveEdit()"
-            aria-label="Salvar"
-            [disabled]="!!editTitleError() || !!editDescriptionError() || !!editDateError()"
+            (click)="onToggle.emit(todo().id)"
+            [attr.aria-label]="
+              todo().isCompleted ? 'Marcar tarefa como pendente' : 'Marcar tarefa como concluída'
+            "
+            [title]="todo().isCompleted ? 'Marcar como pendente' : 'Marcar como concluída'"
           >
-            <i class="bi bi-check-lg"></i>
+            <i class="bi bi-arrow-repeat"></i>
           </button>
 
-          <!-- Cancelar -->
-          <button type="button" class="btn-action" (click)="cancelEdit()" aria-label="Cancelar">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        } @else {
-          <!-- Editar -->
-          <button type="button" class="btn-action" (click)="startEdit()" aria-label="Editar">
-            <i class="bi bi-pencil"></i>
-          </button>
+          <!-- Checkbox original mantido para referência futura
+          <input
+            type="checkbox"
+            class="custom-checkbox"
+            [checked]="todo().isCompleted"
+            (change)="onToggle.emit(todo().id)"
+            [attr.aria-label]="
+              todo().isCompleted ? 'Marcar tarefa como pendente' : 'Marcar tarefa como concluída'
+            "
+            [title]="todo().isCompleted ? 'Marcar como pendente' : 'Marcar como concluída'"
+          />
+          -->
+        </div>
+      </div>
+    </div>
 
-          <!-- Excluir -->
-          <button
-            type="button"
-            class="btn-action btn-delete"
-            (click)="onDelete.emit(todo().id); $event.stopPropagation()"
-            aria-label="Excluir"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        }
+    <!-- ═══════════ AÇÕES ═══════════ -->
+    <div class="col-12 col-md-4 col-lg-6 col-xl-2 cell rounded p-2 text-center">
+      <span class="field-label">
+        {{ isEditing() ? 'Confirmar' : 'Ações' }}
+      </span>
+
+      <div class="cell-content">
+        <div class="d-flex align-items-center justify-content-between gap-2 actions-row">
+          @if (isEditing()) {
+            <!-- Salvar alterações: checkbox verde -->
+            <input
+              type="checkbox"
+              class="custom-checkbox"
+              [checked]="false"
+              (change)="saveEdit()"
+              title="Salvar alterações"
+              aria-label="Salvar alterações"
+              [disabled]="!!editTitleError() || !!editDescriptionError() || !!editDateError()"
+            />
+
+            <!-- Cancelar edição: checkbox vermelho -->
+            <input
+              type="checkbox"
+              class="custom-checkbox check-danger"
+              [checked]="false"
+              (change)="cancelEdit()"
+              title="Cancelar edição"
+              aria-label="Cancelar edição"
+            />
+          } @else {
+            <!-- Editar tarefa -->
+            <button
+              type="button"
+              class="btn-action"
+              (click)="startEdit()"
+              aria-label="Editar"
+              title="Editar tarefa"
+            >
+              <i class="bi bi-pencil"></i>
+            </button>
+
+            <!-- Excluir tarefa -->
+            <button
+              type="button"
+              class="btn-action btn-delete"
+              (click)="onDelete.emit(todo().id); $event.stopPropagation()"
+              aria-label="Excluir"
+              title="Excluir tarefa"
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          }
+        </div>
       </div>
     </div>
   </div>

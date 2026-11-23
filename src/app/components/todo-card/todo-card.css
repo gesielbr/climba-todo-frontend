@@ -7,6 +7,7 @@
   --danger: #f7768e; /* vermelho — excluir / inválido */
   --accent: var(--purple-accent, #a855f7);
   --pending: var(--danger); /* era âmbar #e0af68 → agora vermelho (rose do tema) */
+  --check-danger: var(--danger);
 
   /* ── Foco: UMA fonte de verdade ────────────────────────────── */
   --focus-ring: var(--bg-card-active, #3b82f6);
@@ -39,24 +40,375 @@
   &.completed {
     border-color: color-mix(in srgb, var(--done) 30%, var(--card-border));
 
-    .task-title {
+    .text-content .task-title {
       text-decoration: line-through;
       opacity: 0.65;
     }
   }
 
-  .field-label {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 0.72rem;
+  /* ── Estrutura das colunas ─────────────────────────────────── */
+  .cell {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cell-content {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ── MODO EDIÇÃO ───────────────────────────────────────────── */
+  .edit-fields {
+    .edit-label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--card-label);
+    }
+
+    .form-control {
+      color: #ffffff;
+      background: var(--bg-input, #1f2335);
+      border-color: var(--card-border);
+
+      &::placeholder {
+        color: #565f89;
+      }
+    }
+
+    .edit-title,
+    .edit-description {
+      resize: none;
+      overflow: hidden;
+      line-height: 1.5;
+
+      &.expanded {
+        overflow-y: auto;
+      }
+    }
+
+    /* Ícone de erro nos campos de edição.
+       Usa box-shadow (não outline) → não colide com o anel de foco. */
+    textarea.form-control.is-invalid {
+      padding-right: 3rem;
+      border-color: var(--danger) !important;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1.25rem center;
+      background-size: calc(1em + 0.5rem) calc(1em + 0.5rem);
+      box-shadow: none !important;
+
+      &:focus {
+        border-color: var(--danger) !important;
+        box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--danger) 25%, transparent) !important;
+      }
+    }
+  }
+
+  /* ── MODO VISUALIZAÇÃO ─────────────────────────────────────── */
+  .text-content {
+    .field-label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #86f34c;
+    }
+
+    .task-title {
+      font-size: 1.3rem;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      overflow: hidden;
+      font-size: 1rem;
+      margin: 0 0 4px;
+      color: #ffffff;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+
+      &.expanded {
+        -webkit-line-clamp: unset;
+        line-clamp: unset;
+      }
+    }
+
+    .todo-description {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
+      line-clamp: 5;
+      overflow: hidden;
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.3rem;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+
+      &.expanded {
+        -webkit-line-clamp: unset;
+        line-clamp: unset;
+      }
+    }
+  }
+
+  /* ── Informações das demais colunas ────────────────────────── */
+  .cell > .field-label {
+    margin-bottom: 6px;
+    font-size: 1rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--card-label);
+    letter-spacing: 0.12em;
+    color: #86f34c;
+  }
+
+  .due-date {
+    color: #c0caf5;
+    font-weight: 600;
+    font-size: 0.86rem;
+    white-space: nowrap;
+
+    &.no-date {
+      color: #565f89;
+      font-weight: 500;
+      font-style: italic;
+    }
+  }
+
+  .badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+
+    /* PENDENTE: vermelho com gradiente + glow */
+    color: color-mix(in srgb, var(--pending) 78%, white);
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--pending) 24%, transparent) 0%,
+      color-mix(in srgb, var(--pending) 12%, transparent) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--pending) 55%, transparent);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--pending) 8%, transparent),
+      0 2px 10px color-mix(in srgb, var(--pending) 25%, transparent);
+
+    /* CONCLUÍDA: mesmo tratamento, verde */
+    &.completed {
+      color: color-mix(in srgb, var(--done) 78%, white);
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--done) 24%, transparent) 0%,
+        color-mix(in srgb, var(--done) 12%, transparent) 100%
+      );
+      border-color: color-mix(in srgb, var(--done) 55%, transparent);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--done) 8%, transparent),
+        0 2px 10px color-mix(in srgb, var(--done) 25%, transparent);
+    }
+  }
+
+  /* ── Botão expandir ────────────────────────────────────────── */
+  .btn-expand {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    align-self: flex-start;
+    padding: 0;
+    margin-top: 4px;
+    background: none;
+    border: 0;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /* ── Checkbox circular: preview → commit ───────────────────── */
+  .custom-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-grid;
+    place-content: center;
+
+    border: 1.5px solid color-mix(in srgb, var(--check-idle) 38%, var(--card-border));
+    background: color-mix(in srgb, var(--check-idle) 6%, transparent);
+    box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--check-idle) 7%, transparent);
+
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      box-shadow 0.18s ease;
+
+    &::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      background: var(--check-idle);
+      opacity: var(--check-idle-opacity);
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+      transform: scale(0.82);
+      transition:
+        transform 0.18s ease,
+        background-color 0.18s ease,
+        opacity 0.18s ease;
+    }
+
+    &:hover:not(:checked) {
+      border-color: var(--check-idle);
+      background-color: color-mix(in srgb, var(--check-idle) 14%, transparent);
+      box-shadow:
+        inset 0 0 0 3px color-mix(in srgb, var(--check-idle) 10%, transparent),
+        0 0 0 4px color-mix(in srgb, var(--check-idle) 14%, transparent);
+
+      &::before {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    &:active:not(:checked)::before {
+      transform: scale(0.72);
+    }
+
+    &:checked {
+      background-color: var(--done);
+      border-color: var(--done);
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--done) 35%, transparent);
+
+      &::before {
+        background: #ffffff;
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Checkbox de cancelar: mantém todos os efeitos, mas usa X vermelho */
+    &.check-danger {
+      --check-idle: var(--danger);
+
+      &::before {
+        content: '×';
+        clip-path: none;
+        background: none;
+        color: var(--danger);
+        font-size: 26px;
+        font-size: 26px;
+        font-weight: 500;
+        line-height: 16px;
+        text-align: center;
+        transform: translateY(-2px);
+      }
+
+      &:checked {
+        background-color: var(--danger);
+        border-color: var(--danger);
+        box-shadow: 0 4px 14px color-mix(in srgb, var(--danger) 35%, transparent);
+
+        &::before {
+          color: #ffffff;
+          background: none;
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+
+  /* ── Ações ─────────────────────────────────────────────────── */
+  .actions-row {
+    min-height: 38px;
+  }
+
+  .btn-action {
+    display: inline-flex;
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: #c0caf5;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    i {
+      transition:
+        filter 0.18s ease,
+        color 0.15s ease;
+    }
+
+    &:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--accent) 18%, transparent);
+      border-color: var(--accent);
+      color: color-mix(in srgb, var(--accent) 60%, white);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 30%, transparent);
+
+      i {
+        filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 55%, transparent));
+      }
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    &.btn-delete:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--danger) 18%, transparent);
+      border-color: var(--danger);
+      color: color-mix(in srgb, var(--danger) 60%, white);
+
+      i {
+        filter: drop-shadow(0 0 6px color-mix(in srgb, var(--danger) 55%, transparent));
+      }
+    }
+
+    /* ── Cancelar edição: hover vermelho ───────────────────── */
+    &.btn-cancel:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--danger) 18%, transparent);
+      border-color: var(--danger);
+      color: color-mix(in srgb, var(--danger) 60%, white);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px color-mix(in srgb, var(--danger) 30%, transparent);
+
+      i {
+        filter: drop-shadow(0 0 6px color-mix(in srgb, var(--danger) 55%, transparent));
+      }
+    }
   }
 }
 
-/* "Ativo" = UMA fonte só: foco real no card ou em qualquer filho. */
+/* Ativo = foco real no card ou em qualquer filho. */
 :host(:focus-within) .todo-card {
   border-color: var(--focus-ring);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 25%, transparent);
@@ -64,389 +416,63 @@
 }
 
 /* ═══════════════ Foco visível — PADRÃO ÚNICO ═══════════════ */
-/* ⚠️ CORREÇÃO: o `border-radius: 8px` que estava AQUI foi removido.
-   Ele sobrescrevia o `border-radius: 50%` do checkbox no momento do Tab
-   → o círculo virava quadrado arredondado só quando focado. */
-.btn-expand:focus-visible,
-.btn-action:focus-visible,
-.custom-checkbox:focus-visible,
-.edit-fields .form-control:focus-visible,
-app-date-picker-dropdown:focus-within {
-  outline: var(--focus-w) solid var(--focus-color, var(--focus-ring));
-  outline-offset: var(--focus-offset);
-}
-
-/* Só o host do dropdown precisa do raio (o checkbox já é 50%, os
-   botões já são 50%, os textareas já têm 8px do .form-control). */
-app-date-picker-dropdown:focus-within {
-  border-radius: 8px;
-}
-
-.btn-delete:focus-visible,
-.edit-fields .form-control.is-invalid:focus-visible {
-  --focus-color: var(--danger);
-}
-
-@media (forced-colors: active) {
+.todo-card {
   .btn-expand:focus-visible,
   .btn-action:focus-visible,
   .custom-checkbox:focus-visible,
   .edit-fields .form-control:focus-visible,
   app-date-picker-dropdown:focus-within {
-    outline-color: Highlight;
+    outline: var(--focus-w) solid var(--focus-color, var(--focus-ring));
+    outline-offset: var(--focus-offset);
   }
 
-  .custom-checkbox {
-    border-color: CanvasText;
-    background: Canvas;
+  app-date-picker-dropdown:focus-within {
+    border-radius: 8px;
   }
 
-  .custom-checkbox::before {
-    background: CanvasText;
-    opacity: 0.55;
-  }
-
-  .custom-checkbox:checked {
-    background: Highlight;
-    border-color: Highlight;
-  }
-
-  .custom-checkbox:checked::before {
-    background: HighlightText;
-    opacity: 1;
+  .btn-delete:focus-visible,
+  .edit-fields .form-control.is-invalid:focus-visible {
+    --focus-color: var(--danger);
   }
 }
 
-/* ═══════════════ Colunas ═══════════════ */
-.cell {
-  display: flex;
-  flex-direction: column;
-}
+@media (forced-colors: active) {
+  .todo-card {
+    .btn-expand:focus-visible,
+    .btn-action:focus-visible,
+    .custom-checkbox:focus-visible,
+    .edit-fields .form-control:focus-visible,
+    app-date-picker-dropdown:focus-within {
+      outline-color: Highlight;
+    }
 
-.cell-center {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+    .custom-checkbox {
+      border-color: CanvasText;
+      background: Canvas;
 
-/* ═══════════════ Labels ═══════════════ */
-.field-label {
-  margin-bottom: 6px;
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--card-label);
-  opacity: 0.85;
-}
+      &::before {
+        background: CanvasText;
+        opacity: 0.55;
+      }
 
-.edit-label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--card-label);
-}
+      &:checked {
+        background: Highlight;
+        border-color: Highlight;
 
-/* ═══════════════ Título: máx. 3 linhas + expandir ═══════════════ */
-.task-title {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
-
-  margin: 0 0 4px;
-  color: #ffffff;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-
-  &.expanded {
-    -webkit-line-clamp: unset;
-    line-clamp: unset;
-  }
-}
-
-.edit-title {
-  resize: none;
-  overflow: hidden;
-  line-height: 1.5;
-
-  &.expanded {
-    overflow-y: auto;
-  }
-}
-
-/* ═══════════════ Descrição (leitura): máx. 5 linhas + expandir ═══════════════ */
-.todo-description {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
-  line-clamp: 5;
-  overflow: hidden;
-
-  margin: 0;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 0.84rem;
-  line-height: 1.55;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-
-  &.expanded {
-    -webkit-line-clamp: unset;
-    line-clamp: unset;
-  }
-}
-
-.btn-expand {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  align-self: flex-start;
-  padding: 0;
-  margin-top: 4px;
-  background: none;
-  border: 0;
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-/* ═══════════════ Prazo ═══════════════ */
-.due-date {
-  color: #c0caf5;
-  font-weight: 600;
-  font-size: 0.86rem;
-  white-space: nowrap;
-
-  &.no-date {
-    color: #565f89;
-    font-weight: 500;
-    font-style: italic;
-  }
-}
-
-/* ═══════════════ Status ═══════════════ */
-.badge-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  white-space: nowrap;
-  letter-spacing: 0.02em;
-
-  /* ── PENDENTE: vermelho com gradiente + glow ───────────────── */
-  color: color-mix(in srgb, var(--pending) 78%, white);
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--pending) 24%, transparent) 0%,
-    color-mix(in srgb, var(--pending) 12%, transparent) 100%
-  );
-  border: 1px solid color-mix(in srgb, var(--pending) 55%, transparent);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--pending) 8%, transparent),
-    0 2px 10px color-mix(in srgb, var(--pending) 25%, transparent);
-
-  /* ── CONCLUÍDA: mesmo tratamento, verde ────────────────────── */
-  &.completed {
-    color: color-mix(in srgb, var(--done) 78%, white);
-    background: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--done) 24%, transparent) 0%,
-      color-mix(in srgb, var(--done) 12%, transparent) 100%
-    );
-    border-color: color-mix(in srgb, var(--done) 55%, transparent);
-    box-shadow:
-      inset 0 0 0 1px color-mix(in srgb, var(--done) 8%, transparent),
-      0 2px 10px color-mix(in srgb, var(--done) 25%, transparent);
-  }
-}
-
-/* ═══════════════ Checkbox circular: preview → commit ═══════════════ */
-.custom-checkbox {
-  appearance: none;
-  -webkit-appearance: none;
-  flex-shrink: 0;
-  width: 38px; /* mesmo tamanho do .btn-action → continua alinhado */
-  height: 38px;
-  margin: 0;
-  padding: 0;
-  border-radius: 50%;
-  cursor: pointer;
-  display: inline-grid;
-  place-content: center;
-
-  /* DESMARCADO: anel verde-suave + fundo levemente tintado + anel interno
-     → o círculo "existe" no fundo escuro em vez de parecer um buraco */
-  border: 1.5px solid color-mix(in srgb, var(--check-idle) 38%, var(--card-border));
-  background: color-mix(in srgb, var(--check-idle) 6%, transparent);
-  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--check-idle) 7%, transparent);
-
-  transition:
-    background-color 0.18s ease,
-    border-color 0.18s ease,
-    box-shadow 0.18s ease;
-
-  /* O MESMO check do estado marcado, agora visível como "fantasma".
-     Antes era `transform: scale(0)` → invisível → ninguém entendia o círculo. */
-  &::before {
-    content: '';
-    width: 16px;
-    height: 16px;
-    background: var(--check-idle);
-    opacity: var(--check-idle-opacity);
-    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-    transform: scale(0.82);
-    transition:
-      transform 0.18s ease,
-      background-color 0.18s ease,
-      opacity 0.18s ease;
-  }
-
-  /* HOVER: o fantasma acende e cresce → preview exato do que vai acontecer */
-  &:hover:not(:checked) {
-    border-color: var(--check-idle);
-    background-color: color-mix(in srgb, var(--check-idle) 14%, transparent);
-    box-shadow:
-      inset 0 0 0 3px color-mix(in srgb, var(--check-idle) 10%, transparent),
-      0 0 0 4px color-mix(in srgb, var(--check-idle) 14%, transparent);
-
-    &::before {
-      opacity: 1;
-      transform: scale(1);
+        &::before {
+          background: HighlightText;
+          opacity: 1;
+        }
+      }
     }
   }
-
-  /* feedback de press */
-  &:active:not(:checked)::before {
-    transform: scale(0.72);
-  }
-
-  /* MARCADO — INALTERADO (o que você já achou lindo):
-     verde sólido + check branco + glow. Só resetamos o anel interno. */
-  &:checked {
-    background-color: var(--done);
-    border-color: var(--done);
-    box-shadow: 0 4px 14px color-mix(in srgb, var(--done) 35%, transparent);
-
-    &::before {
-      background: #ffffff;
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-}
-
-/* ═══════════════ Botões de ação ═══════════════ */
-.actions-row {
-  min-height: 38px;
-}
-
-.btn-action {
-  display: inline-flex;
-  width: 38px;
-  height: 38px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid var(--card-border);
-  background: transparent;
-  color: #c0caf5;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.15s ease;
-
-  /* ícone ganha transição própria (filter não herda do `all` do pai) */
-  i {
-    transition:
-      filter 0.18s ease,
-      color 0.15s ease;
-  }
-
-  /* ── HOVER: lavanda clara + aura roxa ──────────────────────── */
-  &:hover:not(:disabled) {
-    background: color-mix(in srgb, var(--accent) 18%, transparent);
-    border-color: var(--accent);
-
-    /* 60% accent + 40% branco → lavanda (não estoura, não apaga) */
-    color: color-mix(in srgb, var(--accent) 60%, white);
-
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 30%, transparent);
-
-    i {
-      filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 55%, transparent));
-    }
-  }
-
-  &:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
-}
-
-.btn-delete:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--danger) 18%, transparent);
-  border-color: var(--danger);
-  color: color-mix(in srgb, var(--danger) 60%, white);
-
-  /* override do glow: lixeira brilha RED, não roxo */
-  i {
-    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--danger) 55%, transparent));
-  }
-}
-
-/* ═══════════════ Campos de edição ═══════════════ */
-.edit-fields .form-control {
-  color: #ffffff;
-  background: var(--bg-input, #1f2335);
-  border-color: var(--card-border);
-
-  &::placeholder {
-    color: #565f89;
-  }
-}
-
-.edit-description {
-  resize: none;
-  overflow: hidden;
-  line-height: 1.5;
-
-  &.expanded {
-    overflow-y: auto;
-  }
-}
-
-/* ═══════════════ Ícone de erro nos campos de edição ═══════════════ */
-/* Usa box-shadow (não outline) → não colide com o anel de foco. */
-.edit-fields textarea.form-control.is-invalid {
-  padding-right: 3rem;
-  border-color: var(--danger) !important;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 1.25rem center;
-  background-size: calc(1em + 0.5rem) calc(1em + 0.5rem);
-  box-shadow: none !important;
-}
-
-.edit-fields textarea.form-control.is-invalid:focus {
-  border-color: var(--danger) !important;
-  box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--danger) 25%, transparent) !important;
 }
 
 /* ═══════════════ Mobile ═══════════════ */
 @media (max-width: 767.98px) {
-  .cell + .cell {
-    border-top: 1px solid var(--card-border);
+  .todo-card {
+    .cell + .cell {
+      border-top: 1px solid var(--card-border);
+    }
   }
 }
