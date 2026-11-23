@@ -5,93 +5,196 @@
   [class.active-card]="isActive()"
 >
   <div class="row g-0 align-items-stretch">
-    <!-- Conteúdo -->
-    <div class="col-12 col-md-8 col-lg-8 col-xl-6 text-white rounded p-3">
+    <!-- ═══════════ TAREFA ═══════════ -->
+    <div class="col-12 col-md-12 col-lg-8 col-xl-5 cell rounded p-2">
+      <span class="field-label">Tarefa</span>
+
       <div class="flex-grow-1">
         @if (isEditing()) {
+          <!-- MODO EDIÇÃO: campos -->
           <div class="edit-fields">
-            <!-- Erro do título -->
             @if (editTitleError()) {
-              <small class="text-danger d-block mb-2">
+              <small id="editTitleError" class="text-danger d-block mb-2">
                 {{ editTitleError() }}
               </small>
             }
 
-            <input
-              type="text"
-              class="form-control form-control-sm mb-2 title-input"
+            <label class="edit-label" for="editTitle">Tarefa</label>
+            <textarea
+              id="editTitle"
+              #editTitleEl
+              rows="3"
+              class="form-control form-control-sm edit-title"
+              [class.expanded]="isEditTitleExpanded()"
+              [class.mb-2]="!showEditTitleExpand()"
+              [class.mb-1]="showEditTitleExpand()"
               [class.is-invalid]="!!editTitleError()"
+              [attr.aria-invalid]="editTitleError() ? 'true' : null"
+              [attr.aria-describedby]="editTitleError() ? 'editTitleError' : null"
               [ngModel]="editTitle()"
-              (ngModelChange)="onEditTitleChange($event)"
-              placeholder="Título"
-            />
+              (ngModelChange)="onEditTitleInput($event)"
+              placeholder="Título da tarefa"
+            ></textarea>
 
-            <input
-              type="text"
-              class="form-control form-control-sm mb-2"
+            @if (showEditTitleExpand()) {
+              <button
+                type="button"
+                class="btn-expand mb-4"
+                (click)="toggleEditTitle()"
+                [attr.aria-expanded]="isEditTitleExpanded()"
+              >
+                {{ isEditTitleExpanded() ? 'Ver menos' : 'Ver mais' }}
+                <i
+                  class="bi"
+                  [class.bi-chevron-down]="!isEditTitleExpanded()"
+                  [class.bi-chevron-up]="isEditTitleExpanded()"
+                ></i>
+              </button>
+            }
+
+            @if (editDescriptionError()) {
+              <small id="editDescriptionError" class="text-danger d-block mb-2">
+                {{ editDescriptionError() }}
+              </small>
+            }
+
+            <label class="edit-label" for="editDescription">Descrição</label>
+            <textarea
+              id="editDescription"
+              #editDescEl
+              rows="5"
+              class="form-control form-control-sm edit-description"
+              [class.expanded]="isEditDescriptionExpanded()"
+              [class.mb-2]="!showEditDescExpand()"
+              [class.mb-1]="showEditDescExpand()"
+              [class.is-invalid]="!!editDescriptionError()"
+              [attr.aria-invalid]="editDescriptionError() ? 'true' : null"
+              [attr.aria-describedby]="editDescriptionError() ? 'editDescriptionError' : null"
               [ngModel]="editDescription()"
-              (ngModelChange)="editDescription.set($event)"
+              (ngModelChange)="onEditDescriptionInput($event)"
               placeholder="Descrição (opcional)"
-            />
+            ></textarea>
 
-            <!-- Erro da data -->
+            @if (showEditDescExpand()) {
+              <button
+                type="button"
+                class="btn-expand mb-4"
+                (click)="toggleEditDescription()"
+                [attr.aria-expanded]="isEditDescriptionExpanded()"
+              >
+                {{ isEditDescriptionExpanded() ? 'Ver menos' : 'Ver mais' }}
+                <i
+                  class="bi"
+                  [class.bi-chevron-down]="!isEditDescriptionExpanded()"
+                  [class.bi-chevron-up]="isEditDescriptionExpanded()"
+                ></i>
+              </button>
+            }
+
             @if (editDateError()) {
-              <small class="text-danger d-block mb-2">
+              <small id="editDateError" class="text-danger d-block mb-2">
                 {{ editDateError() }}
               </small>
             }
 
+            <label class="edit-label">Prazo</label>
             <app-date-picker-dropdown
               [ngModel]="editDueDate()"
               (ngModelChange)="onEditDueDateChange($event)"
               [isInvalidDropdown]="!!editDateError()"
+              [attr.aria-invalid]="editDateError() ? 'true' : null"
+              [attr.aria-describedby]="editDateError() ? 'editDateError' : null"
               (dropdownOpenChange)="onCalendarOpenChange($event)"
             />
           </div>
         } @else {
+          <!-- MODO LEITURA: título + descrição -->
           <div class="text-content">
-            <h6 class="mb-1 fw-bold">
+            <h6 #titleEl class="mb-1 fw-bold task-title" [class.expanded]="isTitleExpanded()">
               {{ todo().title }}
             </h6>
 
+            @if (showTitleExpand()) {
+              <button
+                type="button"
+                class="btn-expand mb-4"
+                (click)="toggleTitleExpand()"
+                [attr.aria-expanded]="isTitleExpanded()"
+              >
+                {{ isTitleExpanded() ? 'Ver menos' : 'Ver mais' }}
+                <i
+                  class="bi"
+                  [class.bi-chevron-down]="!isTitleExpanded()"
+                  [class.bi-chevron-up]="isTitleExpanded()"
+                ></i>
+              </button>
+            }
+
             @if (todo().description) {
-              <small class="text-white-50 d-block text-truncate description">
+              <p #descEl class="todo-description" [class.expanded]="isDescriptionExpanded()">
                 {{ todo().description }}
-              </small>
+              </p>
+
+              @if (showExpandButton()) {
+                <button
+                  type="button"
+                  class="btn-expand mb-4"
+                  (click)="toggleDescription()"
+                  [attr.aria-expanded]="isDescriptionExpanded()"
+                >
+                  {{ isDescriptionExpanded() ? 'Ver menos' : 'Ver mais' }}
+                  <i
+                    class="bi"
+                    [class.bi-chevron-down]="!isDescriptionExpanded()"
+                    [class.bi-chevron-up]="isDescriptionExpanded()"
+                  ></i>
+                </button>
+              }
             }
           </div>
         }
       </div>
     </div>
 
-    <!-- Data -->
-    <div class="col-12 col-md-4 col-lg-4 col-xl-2 text-white rounded text-center p-3">
-      @if (isEditing()) {
-        <span class="small edicao">Modo de edição</span>
-      } @else {
-        <small class="text-white-50 text-nowrap">
-          {{ todo().dueDate ? (todo().dueDate | date: 'dd/MM/yyyy' : 'UTC') : 'Sem data' }}
-        </small>
-      }
+    <!-- ═══════════ PRAZO (sempre informativo) ═══════════ -->
+    <div class="col-12 col-md-4 col-lg-4 col-xl-2 cell cell-center rounded py-2">
+      <span class="field-label">Prazo</span>
+
+      <small class="due-date" [class.no-date]="!todo().dueDate">
+        {{ todo().dueDate ? (todo().dueDate | date: 'dd/MM/yyyy' : 'UTC') : 'Sem data' }}
+      </small>
     </div>
 
-    <!-- Status -->
-    <div class="col-12 col-md-6 col-lg-6 col-xl-2 text-white rounded text-center p-3">
+    <!-- ═══════════ STATUS ═══════════ -->
+    <div class="col-12 col-md-4 col-lg-6 col-xl-2 cell cell-center rounded p-2">
+      <span class="field-label">Status</span>
+
       <span class="badge-status" [class.completed]="todo().isCompleted">
+        <i
+          class="bi"
+          [class.bi-check2-circle]="todo().isCompleted"
+          [class.bi-hourglass-split]="!todo().isCompleted"
+        ></i>
         {{ todo().isCompleted ? 'Concluída' : 'Pendente' }}
       </span>
     </div>
 
-    <!-- Ações -->
-    <div class="col-12 col-md-6 col-lg-6 col-xl-2 text-dark rounded p-3">
-      <div class="d-flex align-items-center justify-content-between">
-        <!-- Checkbox -->
+    <!-- ═══════════ AÇÕES ═══════════ -->
+    <div class="col-12 col-md-4 col-lg-6 col-xl-3 cell cell-center rounded p-sm-0 p-2">
+      <span class="field-label">Ações</span>
+
+      <div class="d-flex align-items-center justify-content-between gap-2 actions-row">
+        <!-- Checkbox circular customizado -->
+        <!-- Concluir / reabrir: círculo com "preview" do check -->
         <input
           type="checkbox"
-          class="form-check-input custom-checkbox m-0"
+          class="custom-checkbox"
           [checked]="todo().isCompleted"
           (change)="onToggle.emit(todo().id)"
-          aria-label="Marcar tarefa como concluída"
+          [attr.aria-label]="
+            todo().isCompleted ? 'Marcar tarefa como pendente' : 'Marcar tarefa como concluída'
+          "
+          [title]="todo().isCompleted ? 'Marcar como pendente' : 'Marcar como concluída'"
         />
 
         @if (isEditing()) {
@@ -101,7 +204,7 @@
             class="btn-action"
             (click)="saveEdit()"
             aria-label="Salvar"
-            [disabled]="!!editTitleError() || !!editDateError()"
+            [disabled]="!!editTitleError() || !!editDescriptionError() || !!editDateError()"
           >
             <i class="bi bi-check-lg"></i>
           </button>

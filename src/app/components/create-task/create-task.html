@@ -57,6 +57,15 @@
       <!-- Descrição -->
       <div class="row mb-1">
         <div class="col-12">
+          @if (
+            taskForm.get('description')?.hasError('maxlength') &&
+            (taskForm.get('description')?.touched || taskForm.get('description')?.dirty)
+          ) {
+            <small class="text-danger d-inline-block mb-2">
+              A descrição deve ter no máximo 1000 caracteres.
+            </small>
+          }
+
           <textarea
             class="form-control"
             rows="3"

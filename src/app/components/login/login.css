@@ -201,7 +201,7 @@ button:focus-visible {
     overflow: hidden;
   }
 
-  .illustration {
+  /* .illustration {
     width: clamp(100px, 22dvh, 148px);
     margin: 0 auto 6px;
     flex-shrink: 0;
@@ -219,12 +219,12 @@ button:focus-visible {
   form {
     margin-top: 18px;
     flex-shrink: 0;
-  }
+  } */
 }
 
 /* CELULAR BAIXINHO - iPhone SE, etc */
 @media (max-width: 575.98px) and (max-height: 700px) {
-  .illustration {
+  /* .illustration {
     width: 92px;
   }
 
@@ -250,7 +250,7 @@ button:focus-visible {
   input,
   button {
     min-height: 50px;
-  }
+  } */
 }
 
 @media (max-width: 575.98px) {

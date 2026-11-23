@@ -1,258 +1,442 @@
-/* =========================================
-   CARD: ESTRUTURA E APARÊNCIA
-   ========================================= */
+:host {
+  --card-bg: var(--bg-card, #24283b);
+  --card-border: #3b4159;
+  --card-label: var(--text-muted, #7aa2f7);
+  --pending: #e0af68; /* âmbar — pendente */
+  --done: #2dd4a7; /* verde — concluída */
+  --danger: #f7768e; /* vermelho — excluir / inválido */
+  --accent: var(--purple-accent, #a855f7);
+  --pending: var(--danger); /* era âmbar #e0af68 → agora vermelho (rose do tema) */
+
+  /* ── Foco: UMA fonte de verdade ────────────────────────────── */
+  --focus-ring: var(--bg-card-active, #3b82f6);
+  --focus-w: 2px;
+  --focus-offset: 2px;
+
+  /* ── Checkbox desmarcado ─────────────────────────────────────
+     Verde-fantasma = "clique pra virar isto".
+     Quer espelhar o badge "Pendente"? Troque a linha abaixo por
+     --check-idle: var(--pending);  ← UMA linha, nada mais muda.   */
+  --check-idle: var(--done);
+  --check-idle-opacity: 0.42;
+}
+
+/* ═══════════════ Card ═══════════════ */
 .todo-card {
-  background-color: var(--bg-card);
-  border-radius: 12px;
-  transition: transform 0.2s;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--card-border));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  &.completed {
+    border-color: color-mix(in srgb, var(--done) 30%, var(--card-border));
+
+    .task-title {
+      text-decoration: line-through;
+      opacity: 0.65;
+    }
+  }
 }
 
-.todo-card:hover {
-  transform: none;
-}
-
-/* Card em edição: sobreposição */
-.todo-card.editing-card {
-  position: relative;
-  z-index: 1061;
-}
-
-/* Foco no card ou em elementos internos */
-.todo-card:focus-within,
-.todo-card:focus-visible {
-  background-color: var(--bg-input);
-  color: white;
-  border-color: var(--purple-accent);
-  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
-}
-
-/* Remove o contorno padrão quando o próprio card recebe foco */
-.todo-card:focus-visible {
+/* "Ativo" = UMA fonte só: foco real no card ou em qualquer filho. */
+:host(:focus-within) .todo-card {
+  border-color: var(--focus-ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 25%, transparent);
   outline: none;
 }
 
-/* Estado concluído */
-:host(.completed) {
-  text-decoration: line-through;
+/* ═══════════════ Foco visível — PADRÃO ÚNICO ═══════════════ */
+/* ⚠️ CORREÇÃO: o `border-radius: 8px` que estava AQUI foi removido.
+   Ele sobrescrevia o `border-radius: 50%` do checkbox no momento do Tab
+   → o círculo virava quadrado arredondado só quando focado. */
+.btn-expand:focus-visible,
+.btn-action:focus-visible,
+.custom-checkbox:focus-visible,
+.edit-fields .form-control:focus-visible,
+app-date-picker-dropdown:focus-within {
+  outline: var(--focus-w) solid var(--focus-color, var(--focus-ring));
+  outline-offset: var(--focus-offset);
 }
 
-/* Estado ativo */
-.todo-card.active-card .icon-box {
-  background-color: #ffffff;
+/* Só o host do dropdown precisa do raio (o checkbox já é 50%, os
+   botões já são 50%, os textareas já têm 8px do .form-control). */
+app-date-picker-dropdown:focus-within {
+  border-radius: 8px;
 }
 
-.todo-card.active-card .text-white-50 {
-  color: rgba(255, 255, 255, 0.7) !important;
+.btn-delete:focus-visible,
+.edit-fields .form-control.is-invalid:focus-visible {
+  --focus-color: var(--danger);
 }
 
-/* =========================================
-   CONTEÚDO DO CARD
-   ========================================= */
+@media (forced-colors: active) {
+  .btn-expand:focus-visible,
+  .btn-action:focus-visible,
+  .custom-checkbox:focus-visible,
+  .edit-fields .form-control:focus-visible,
+  app-date-picker-dropdown:focus-within {
+    outline-color: Highlight;
+  }
 
-/* Área de texto */
-.text-content {
-  min-width: 0;
+  .custom-checkbox {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .custom-checkbox::before {
+    background: CanvasText;
+    opacity: 0.55;
+  }
+
+  .custom-checkbox:checked {
+    background: Highlight;
+    border-color: Highlight;
+  }
+
+  .custom-checkbox:checked::before {
+    background: HighlightText;
+    opacity: 1;
+  }
 }
 
-.text-content h6 {
-  font-size: 1rem;
+/* ═══════════════ Colunas ═══════════════ */
+.cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.cell-center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* ═══════════════ Labels ═══════════════ */
+.field-label {
+  margin-bottom: 6px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--card-label);
+  opacity: 0.85;
+}
+
+.edit-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--card-label);
+}
+
+/* ═══════════════ Título: máx. 3 linhas + expandir ═══════════════ */
+.task-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+
+  margin: 0 0 4px;
+  color: #ffffff;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  &.expanded {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+  }
+}
+
+.edit-title {
+  resize: none;
+  overflow: hidden;
+  line-height: 1.5;
+
+  &.expanded {
+    overflow-y: auto;
+  }
+}
+
+/* ═══════════════ Descrição (leitura): máx. 5 linhas + expandir ═══════════════ */
+.todo-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  overflow: hidden;
+
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  &.expanded {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+  }
+}
+
+.btn-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  padding: 0;
+  margin-top: 4px;
+  background: none;
+  border: 0;
+  color: var(--accent);
+  font-size: 0.78rem;
   font-weight: 600;
-}
-
-/* Descrição */
-.description {
-  max-width: 200px;
-}
-
-/* =========================================
-   ÍCONE DO CARD
-   ========================================= */
-.icon-box {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-}
-
-/* Alinhamento dos ícones Bootstrap */
-.bi::before {
-  /* suas propriedades aqui, ex: */
-  vertical-align: unset;
-}
-
-/* =========================================
-   CHECKBOX
-   ========================================= */
-.custom-checkbox {
-  width: 20px;
-  height: 20px;
-  background-color: transparent;
-  border: 2px solid #565f89;
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ═══════════════ Prazo ═══════════════ */
+.due-date {
+  color: #c0caf5;
+  font-weight: 600;
+  font-size: 0.86rem;
+  white-space: nowrap;
+
+  &.no-date {
+    color: #565f89;
+    font-weight: 500;
+    font-style: italic;
+  }
+}
+
+/* ═══════════════ Status ═══════════════ */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+
+  /* ── PENDENTE: vermelho com gradiente + glow ───────────────── */
+  color: color-mix(in srgb, var(--pending) 78%, white);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--pending) 24%, transparent) 0%,
+    color-mix(in srgb, var(--pending) 12%, transparent) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--pending) 55%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--pending) 8%, transparent),
+    0 2px 10px color-mix(in srgb, var(--pending) 25%, transparent);
+
+  /* ── CONCLUÍDA: mesmo tratamento, verde ────────────────────── */
+  &.completed {
+    color: color-mix(in srgb, var(--done) 78%, white);
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--done) 24%, transparent) 0%,
+      color-mix(in srgb, var(--done) 12%, transparent) 100%
+    );
+    border-color: color-mix(in srgb, var(--done) 55%, transparent);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--done) 8%, transparent),
+      0 2px 10px color-mix(in srgb, var(--done) 25%, transparent);
+  }
+}
+
+/* ═══════════════ Checkbox circular: preview → commit ═══════════════ */
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
   flex-shrink: 0;
+  width: 38px; /* mesmo tamanho do .btn-action → continua alinhado */
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+
+  /* DESMARCADO: anel verde-suave + fundo levemente tintado + anel interno
+     → o círculo "existe" no fundo escuro em vez de parecer um buraco */
+  border: 1.5px solid color-mix(in srgb, var(--check-idle) 38%, var(--card-border));
+  background: color-mix(in srgb, var(--check-idle) 6%, transparent);
+  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--check-idle) 7%, transparent);
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+
+  /* O MESMO check do estado marcado, agora visível como "fantasma".
+     Antes era `transform: scale(0)` → invisível → ninguém entendia o círculo. */
+  &::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: var(--check-idle);
+    opacity: var(--check-idle-opacity);
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0.82);
+    transition:
+      transform 0.18s ease,
+      background-color 0.18s ease,
+      opacity 0.18s ease;
+  }
+
+  /* HOVER: o fantasma acende e cresce → preview exato do que vai acontecer */
+  &:hover:not(:checked) {
+    border-color: var(--check-idle);
+    background-color: color-mix(in srgb, var(--check-idle) 14%, transparent);
+    box-shadow:
+      inset 0 0 0 3px color-mix(in srgb, var(--check-idle) 10%, transparent),
+      0 0 0 4px color-mix(in srgb, var(--check-idle) 14%, transparent);
+
+    &::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* feedback de press */
+  &:active:not(:checked)::before {
+    transform: scale(0.72);
+  }
+
+  /* MARCADO — INALTERADO (o que você já achou lindo):
+     verde sólido + check branco + glow. Só resetamos o anel interno. */
+  &:checked {
+    background-color: var(--done);
+    border-color: var(--done);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--done) 35%, transparent);
+
+    &::before {
+      background: #ffffff;
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 }
 
-/* Checkbox marcado */
-.custom-checkbox:checked {
-  background-color: var(--purple-accent);
-  border-color: var(--purple-accent);
+/* ═══════════════ Botões de ação ═══════════════ */
+.actions-row {
+  min-height: 38px;
 }
 
-/* Hover do checkbox */
-.custom-checkbox:hover {
-  border-color: var(--purple-accent);
+.btn-action {
+  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  background: transparent;
+  color: #c0caf5;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  /* ícone ganha transição própria (filter não herda do `all` do pai) */
+  i {
+    transition:
+      filter 0.18s ease,
+      color 0.15s ease;
+  }
+
+  /* ── HOVER: lavanda clara + aura roxa ──────────────────────── */
+  &:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    border-color: var(--accent);
+
+    /* 60% accent + 40% branco → lavanda (não estoura, não apaga) */
+    color: color-mix(in srgb, var(--accent) 60%, white);
+
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 30%, transparent);
+
+    i {
+      filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 55%, transparent));
+    }
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
 }
 
-/* Foco visível do checkbox */
-.form-check-input:focus-visible {
-  border-color: var(--purple-accent);
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+.btn-delete:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--danger) 18%, transparent);
+  border-color: var(--danger);
+  color: color-mix(in srgb, var(--danger) 60%, white);
+
+  /* override do glow: lixeira brilha RED, não roxo */
+  i {
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--danger) 55%, transparent));
+  }
 }
 
-/* =========================================
-   CAMPOS DE EDIÇÃO
-   ========================================= */
-.edit-fields input {
-  background-color: var(--bg-input);
-  border: 1px solid #3b4261;
-  color: white;
-  padding: 0.55rem 0.75rem;
+/* ═══════════════ Campos de edição ═══════════════ */
+.edit-fields .form-control {
+  color: #ffffff;
+  background: var(--bg-input, #1f2335);
+  border-color: var(--card-border);
+
+  &::placeholder {
+    color: #565f89;
+  }
 }
 
-/* Campo inválido */
-.edit-fields input.is-invalid {
-  border-color: #f7768e;
+.edit-description {
+  resize: none;
+  overflow: hidden;
+  line-height: 1.5;
+
+  &.expanded {
+    overflow-y: auto;
+  }
 }
 
-/* Mensagens de erro */
-.edit-fields .text-danger {
-  font-size: 0.875rem;
-}
-
-/* Ícone de erro no título */
-.title-input.is-invalid {
-  border-color: #dc3545;
-  padding-right: 2.5rem;
+/* ═══════════════ Ícone de erro nos campos de edição ═══════════════ */
+/* Usa box-shadow (não outline) → não colide com o anel de foco. */
+.edit-fields textarea.form-control.is-invalid {
+  padding-right: 3rem;
+  border-color: var(--danger) !important;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right 0.75rem center;
+  background-position: right 1.25rem center;
   background-size: calc(1em + 0.5rem) calc(1em + 0.5rem);
+  box-shadow: none !important;
 }
 
-/* =========================================
-   STATUS DA TAREFA
-   ========================================= */
-
-/* .badge-status {
-  font-size: 0.8rem;
-  padding: 2px 8px;
-  border-radius: 12px;
-  background-color: rgba(247, 118, 142, 0.35);
-  color: #ff5c77;
-  white-space: nowrap;
+.edit-fields textarea.form-control.is-invalid:focus {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--danger) 25%, transparent) !important;
 }
 
-.badge-status.completed {
-  background-color: rgba(80, 236, 36, 0.8);
-  color: #fff;
-} */
-
-.badge-status {
-  display: inline-block;
-  padding: 0.45rem 0.85rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 0.5rem;
-  letter-spacing: 0.3px;
-  background-color: #ffc107;
-  color: #212529;
-}
-
-/* Status concluído */
-.badge-status.completed {
-  background-color: #198754;
-  color: #fff;
-}
-
-/* =========================================
-   BOTÕES DE AÇÃO
-   ========================================= */
-.btn-action {
-  background: transparent;
-  border: none;
-  color: #565f89;
-  padding: 0;
-  cursor: pointer;
-  transition: color 0.2s;
-  font-size: 1.2rem;
-  line-height: 0;
-}
-
-/* Hover dos botões de ação */
-.btn-action:hover {
-  color: #7aa2f7;
-}
-
-/* Foco visível dos botões */
-.btn-action:focus-visible {
-  outline: 0;
-  border-color: var(--purple-accent);
-  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
-}
-
-/* Cor do ícone quando o botão recebe foco */
-.btn-action:focus-visible i {
-  color: var(--purple-accent);
-}
-
-/* Botão desabilitado */
-.btn-action:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Ícone do botão de salvar desabilitado */
-.btn-action:disabled .bi-check-lg {
-  color: #6c757d !important;
-}
-
-/* Botão de exclusão */
-.btn-delete {
-  background: transparent;
-  border: none;
-  color: #565f89;
-  padding: 0;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-/* Hover do botão de exclusão */
-.btn-delete:hover {
-  color: #f7768e;
-}
-
-/* =========================================
-   ÍCONES DOS BOTÕES
-   ========================================= */
-
-/* Ícone de confirmação */
-.bi-check-lg {
-  color: #4ade80 !important;
-  font-size: 1.5rem !important;
-}
-
-/* Ícone de cancelamento */
-.bi-x-lg::before {
-  color: rgba(var(--bs-danger-rgb)) !important;
-  font-weight: bolder !important;
-}
-
-/* =========================================
-   RESPONSIVIDADE: MOBILE
-   ========================================= */
-@media (max-width: 575px) {
-  .description {
-    max-width: 140px;
+/* ═══════════════ Mobile ═══════════════ */
+@media (max-width: 767.98px) {
+  .cell + .cell {
+    border-top: 1px solid var(--card-border);
   }
 }

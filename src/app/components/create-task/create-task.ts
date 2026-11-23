@@ -6,10 +6,28 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
   ValidatorFn,
-  Validators,
 } from '@angular/forms';
 import { TodoService } from '../../services/todo.service';
 import { DatePickerDropdown } from '../../date-picker-dropdown/date-picker-dropdown';
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  2️⃣  AQUI — o bloco que você colou vai EXATAMENTE nesta região ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+/** `required` ignorando strings feitas só de espaços (mesma regra do TodoCard). */
+function requiredTrimmed(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null =>
+    String(control.value ?? '').trim() ? null : { required: true };
+}
+
+/** `maxLength` contando após trim, preservando a chave `maxlength` usada no template. */
+function maxLengthTrimmed(max: number): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const actualLength = String(control.value ?? '').trim().length;
+
+    return actualLength > max ? { maxlength: { requiredLength: max, actualLength } } : null;
+  };
+}
 
 function dataNaoPassadaValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -26,7 +44,16 @@ function dataNaoPassadaValidator(): ValidatorFn {
     const dia = Number(parts[2]);
 
     const escolhida = new Date(ano, mes, dia); // data local, sem UTC
-    if (isNaN(escolhida.getTime())) {
+
+    // new Date() normaliza overflow (31/02 → 03/03). isNaN() sozinho não pegava.
+    // Mesmo `ehValida` do parseValidDate do TodoCard.
+    const ehValida =
+      !isNaN(escolhida.getTime()) &&
+      escolhida.getFullYear() === ano &&
+      escolhida.getMonth() === mes &&
+      escolhida.getDate() === dia;
+
+    if (!ehValida) {
       return { dataInvalida: true };
     }
 
@@ -41,6 +68,10 @@ function dataNaoPassadaValidator(): ValidatorFn {
   };
 }
 
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  3️⃣  @Component                                                ║
+// ╚══════════════════════════════════════════════════════════════╝
+
 @Component({
   selector: 'app-create-task',
   standalone: true,
@@ -48,21 +79,42 @@ function dataNaoPassadaValidator(): ValidatorFn {
   templateUrl: './create-task.html',
   styleUrls: ['./create-task.css'],
 })
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  4️⃣  classe — as funções NÃO entram aqui                       ║
+// ╚══════════════════════════════════════════════════════════════╝
 export class CreateTask {
   private fb = inject(FormBuilder);
   private todoService = inject(TodoService);
 
-  formFocused = output<void>(); // 👈 NOVO
+  formFocused = output<void>();
 
   taskForm = this.fb.group({
-    title: ['', [Validators.required, Validators.maxLength(150)]],
-    description: ['', [Validators.maxLength(1000)]],
-    dueDate: ['', [dataNaoPassadaValidator()]],
+    title: ['', [requiredTrimmed(), maxLengthTrimmed(150)]], // 👈 chama as funções
+    description: ['', [maxLengthTrimmed(1000)]], // 👈
+    dueDate: ['', [dataNaoPassadaValidator()]], // 👈
   });
+
+  get isTitleInvalid(): boolean {
+    const c = this.taskForm.get('title');
+    return !!c?.invalid && (c.touched || c.dirty);
+  }
+
+  get isDescriptionInvalid(): boolean {
+    const c = this.taskForm.get('description');
+    return !!c?.invalid && (c.touched || c.dirty);
+  }
+
+  get isDueDateInvalid(): boolean {
+    const c = this.taskForm.get('dueDate');
+    return !!c?.invalid && (c.touched || c.dirty);
+  }
 
   onSubmit() {
     if (this.taskForm.valid) {
       const { title, description, dueDate } = this.taskForm.value;
+
+      const titulo = (title ?? '').trim();
+      if (!titulo) return;
 
       let dueDateIso: string | undefined;
       if (dueDate) {
@@ -71,20 +123,14 @@ export class CreateTask {
 
       this.todoService
         .createTodo({
-          title: title!,
-          description: description || undefined,
+          title: titulo,
+          description: (description ?? '').trim() || undefined,
           dueDate: dueDateIso,
         })
         .subscribe({
-          next: () => this.taskForm.reset(),
+          next: () => this.taskForm.reset({ title: '', description: '', dueDate: '' }),
           error: (err) => console.error('Erro ao criar', err),
         });
     }
-  }
-
-  get isDueDateInvalid(): boolean {
-    const dueDateControl = this.taskForm.get('dueDate');
-    if (!dueDateControl) return false;
-    return Boolean(dueDateControl.invalid && (dueDateControl.touched || dueDateControl.dirty));
   }
 }
