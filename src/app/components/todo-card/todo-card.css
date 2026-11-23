@@ -44,6 +44,16 @@
       opacity: 0.65;
     }
   }
+
+  .field-label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--card-label);
+  }
 }
 
 /* "Ativo" = UMA fonte só: foco real no card ou em qualquer filho. */

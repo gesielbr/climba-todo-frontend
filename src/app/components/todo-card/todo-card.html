@@ -7,8 +7,6 @@
   <div class="row g-0 align-items-stretch">
     <!-- ═══════════ TAREFA ═══════════ -->
     <div class="col-12 col-md-12 col-lg-8 col-xl-5 cell rounded p-2">
-      <span class="field-label">Tarefa</span>
-
       <div class="flex-grow-1">
         @if (isEditing()) {
           <!-- MODO EDIÇÃO: campos -->
@@ -110,6 +108,10 @@
         } @else {
           <!-- MODO LEITURA: título + descrição -->
           <div class="text-content">
+            <!-- ╔════════════════════════════════════════════════════════════════════════╗ -->
+            <!-- ║  [MODO LEITURA] RÓTULO: TAREFA                                         ║ -->
+            <!-- ╚════════════════════════════════════════════════════════════════════════╝ -->
+            <span class="field-label d-block mb-1">Tarefa</span>
             <h6 #titleEl class="mb-1 fw-bold task-title" [class.expanded]="isTitleExpanded()">
               {{ todo().title }}
             </h6>
@@ -131,6 +133,8 @@
             }
 
             @if (todo().description) {
+              <!-- RÓTULO DESCRIÇÃO NO MODO LEITURA -->
+              <span class="field-label d-block mt-2 mb-1">Descrição</span>
               <p #descEl class="todo-description" [class.expanded]="isDescriptionExpanded()">
                 {{ todo().description }}
               </p>
