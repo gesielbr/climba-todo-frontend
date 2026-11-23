@@ -6,7 +6,7 @@
 >
   <div class="row g-0 align-items-stretch">
     <!-- ═══════════ TAREFA ═══════════ -->
-    <div class="col-12 col-md-12 col-lg-8 col-xl-5 cell rounded p-2">
+    <div class="col-12 col-md-12 col-lg-8 col-xl-5 cell rounded p-2 align-items-stretch">
       <div class="flex-grow-1">
         @if (isEditing()) {
           <!-- MODO EDIÇÃO: campos -->
@@ -37,7 +37,7 @@
             @if (showEditTitleExpand()) {
               <button
                 type="button"
-                class="btn-expand mb-4"
+                class="btn-expand mb-2"
                 (click)="toggleEditTitle()"
                 [attr.aria-expanded]="isEditTitleExpanded()"
               >
@@ -119,7 +119,7 @@
             @if (showTitleExpand()) {
               <button
                 type="button"
-                class="btn-expand mb-4"
+                class="btn-expand mb-2"
                 (click)="toggleTitleExpand()"
                 [attr.aria-expanded]="isTitleExpanded()"
               >
@@ -142,7 +142,7 @@
               @if (showExpandButton()) {
                 <button
                   type="button"
-                  class="btn-expand mb-4"
+                  class="btn-expand mb-2"
                   (click)="toggleDescription()"
                   [attr.aria-expanded]="isDescriptionExpanded()"
                 >
