@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { nameGuard } from '../guards/name.guard';
-
+import { nameGuard } from './guards/name.guard';
 export const routes: Routes = [
   {
     path: '',

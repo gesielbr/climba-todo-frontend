@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TodoService } from '../../services/todo.service';
 import { TodoCardComponent } from '../todo-card/todo-card';
-import { CapitalizePipe } from '../../pipes/capitalize.pipe';
 import { UserService } from '../../services/user.service';
 
 @Component({

@@ -181,22 +181,19 @@ button:focus-visible {
   }
 }
 
-/* MOBILE SEM SCROLL */
 @media (max-width: 575.98px) {
   .login {
-    height: 100vh;
-    height: 100svh; /* altura real sem vazar */
-    min-height: 100vh;
-    min-height: 100svh;
-    padding: 0;
-    overflow: hidden;
-    border: unset;
+    display: block;
+    height: 100vh; /* fallback */
+    height: 100dvh;
+    min-height: 0;
+    overflow-y: auto;
   }
 
   .welcome {
-    height: 100%;
     width: 100%;
     max-width: none;
+    min-height: 100%; /* preenche a tela, mas pode crescer */
     border: 0;
     border-radius: 0;
     box-shadow: none;
@@ -204,67 +201,6 @@ button:focus-visible {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: stretch;
-
     padding: 12px 20px max(16px, env(safe-area-inset-bottom));
-    overflow: hidden;
-  }
-
-  /* .illustration {
-    width: clamp(100px, 22dvh, 148px);
-    margin: 0 auto 6px;
-    flex-shrink: 0;
-  }
-
-  h1 {
-    font-size: clamp(1.6rem, 6vw, 2rem);
-  }
-
-  .intro {
-    font-size: 0.92rem;
-    margin-top: 10px;
-  }
-
-  form {
-    margin-top: 18px;
-    flex-shrink: 0;
-  } */
-}
-
-/* CELULAR BAIXINHO - iPhone SE, etc */
-@media (max-width: 575.98px) and (max-height: 700px) {
-  /* .illustration {
-    width: 92px;
-  }
-
-  .eyebrow {
-    margin-bottom: 6px;
-    font-size: 0.66rem;
-  }
-
-  h1 {
-    font-size: 1.55rem;
-  }
-
-  .intro {
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin-top: 8px;
-  }
-
-  form {
-    margin-top: 14px;
-  }
-
-  input,
-  button {
-    min-height: 50px;
-  } */
-}
-
-@media (max-width: 575.98px) {
-  .login:focus-within {
-    overflow-y: auto;
-    padding-bottom: 220px; /* espaço do teclado */
   }
 }

@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { Todo } from '../../models/todo.model';
-import { DatePickerDropdown } from '../../date-picker-dropdown/date-picker-dropdown';
+import { DatePickerDropdown } from '../date-picker-dropdown/date-picker-dropdown';
 
 @Component({
   selector: 'app-todo-card',
