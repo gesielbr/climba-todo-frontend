@@ -11,13 +11,14 @@
         @if (isEditing()) {
           <!-- MODO EDIÇÃO: campos -->
           <div class="edit-fields">
+            <label class="edit-label" for="editTitle">Tarefa</label>
+
             @if (editTitleError()) {
               <small id="editTitleError" class="text-danger d-block mb-2">
                 {{ editTitleError() }}
               </small>
             }
 
-            <label class="edit-label" for="editTitle">Tarefa</label>
             <textarea
               id="editTitle"
               #editTitleEl
@@ -89,13 +90,14 @@
               </button>
             }
 
+            <label class="edit-label">Prazo</label>
+
             @if (editDateError()) {
               <small id="editDateError" class="text-danger d-block mb-2">
                 {{ editDateError() }}
               </small>
             }
 
-            <label class="edit-label">Prazo</label>
             <app-date-picker-dropdown
               [ngModel]="editDueDate()"
               (ngModelChange)="onEditDueDateChange($event)"

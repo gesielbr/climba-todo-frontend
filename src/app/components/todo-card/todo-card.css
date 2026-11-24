@@ -91,6 +91,13 @@
       &::placeholder {
         color: #565f89;
       }
+
+      &:focus {
+        background-color: var(--bg-input);
+        color: white;
+        border-color: var(--purple-accent);
+        box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+      }
     }
 
     /* Garante 1rem também no input interno do componente de data */
