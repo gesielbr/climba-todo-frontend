@@ -74,17 +74,17 @@ O frontend usa **Angular 21**, componentes standalone e Signals. As tarefas são
 
 ## 🛠 Tecnologias
 
-| Camada         | Tecnologia                                                 |
-| -------------- | ---------------------------------------------------------- |
-| Framework      | Angular 21 com componentes standalone                      |
-| Linguagem      | TypeScript                                                 |
-| Estado reativo | Angular Signals e `computed`                               |
-| Formulários    | Reactive Forms no cadastro de tarefas                      |
-| Navegação      | Angular Router, carregamento sob demanda e guard funcional |
-| Estilo         | Bootstrap 5, Bootstrap Icons e CSS customizado             |
-| HTTP           | Angular HttpClient e RxJS                                  |
-| Testes         | Arquivos `.spec.ts` e execução via Angular CLI             |
-| Deploy         | Vercel                                                     |
+| Camada | Tecnologia |
+|--------|------------|
+| Framework | Angular 21 com componentes standalone |
+| Linguagem | TypeScript |
+| Estado reativo | Angular Signals e `computed` |
+| Formulários | Reactive Forms no cadastro de tarefas |
+| Navegação | Angular Router, carregamento sob demanda e guard funcional |
+| Estilo | Bootstrap 5, Bootstrap Icons e CSS customizado |
+| HTTP | Angular HttpClient e RxJS |
+| Testes | Arquivos `.spec.ts` e execução via Angular CLI |
+| Deploy | Vercel |
 
 ---
 
@@ -189,12 +189,12 @@ O projeto inclui arquivos `.spec.ts` para componentes como login, lista, card e 
 
 ### Endpoints usados no fluxo da interface
 
-| Método   | Endpoint          | Descrição                                   |
-| -------- | ----------------- | ------------------------------------------- |
-| `GET`    | `/api/todos`      | Lista as tarefas                            |
-| `POST`   | `/api/todos`      | Cria uma tarefa                             |
-| `PUT`    | `/api/todos/{id}` | Atualiza título, descrição, prazo ou status |
-| `DELETE` | `/api/todos/{id}` | Exclui uma tarefa                           |
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/api/todos` | Lista as tarefas |
+| `POST` | `/api/todos` | Cria uma tarefa |
+| `PUT` | `/api/todos/{id}` | Atualiza título, descrição, prazo ou status |
+| `DELETE` | `/api/todos/{id}` | Exclui uma tarefa |
 
 O serviço também disponibiliza `completeTodo()`, que chama `PATCH /api/todos/{id}/complete`. No fluxo atual da lista, tanto **concluir** quanto **reabrir** uma tarefa usam `PUT` com o campo `isCompleted`.
 
@@ -254,12 +254,12 @@ O `sort` atua sobre uma cópia do array. Assim, a ordem de exibição não alter
 
 A tela de login lê o nome digitado com `viewChild()` e salva o valor no `UserService` antes de navegar. O serviço mantém o nome em um signal e usa `localStorage` para preservá-lo após recarregar a página.
 
-| Rota             | Comportamento                                                         |
-| ---------------- | --------------------------------------------------------------------- |
-| `/`              | Redireciona para `/login`.                                            |
-| `/login`         | Exibe a tela pública de entrada.                                      |
-| `/tasks`         | Abre o painel se houver nome salvo; senão, redireciona para `/login`. |
-| URL desconhecida | Redireciona para `/tasks`, que passa pela mesma verificação.          |
+| Rota | Comportamento |
+|------|---------------|
+| `/` | Redireciona para `/login`. |
+| `/login` | Exibe a tela pública de entrada. |
+| `/tasks` | Abre o painel se houver nome salvo; senão, redireciona para `/login`. |
+| URL desconhecida | Redireciona para `/tasks`, que passa pela mesma verificação. |
 
 O `nameGuard` é aplicado com `canActivateChild`, para que novas rotas adicionadas ao grupo do painel compartilhem a regra. As telas de entrada e de tarefas são carregadas sob demanda com `loadComponent`.
 
