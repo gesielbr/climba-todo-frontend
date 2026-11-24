@@ -51,13 +51,14 @@
               </button>
             }
 
+            <label class="edit-label" for="editDescription">Descrição</label>
+
             @if (editDescriptionError()) {
               <small id="editDescriptionError" class="text-danger d-block mb-2">
                 {{ editDescriptionError() }}
               </small>
             }
 
-            <label class="edit-label" for="editDescription">Descrição</label>
             <textarea
               id="editDescription"
               #editDescEl
