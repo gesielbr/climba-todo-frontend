@@ -427,11 +427,11 @@
 }
 
 /* Ativo = foco real no card ou em qualquer filho. */
-:host(:focus-within) .todo-card {
+/* :host(:focus-within) .todo-card {
   border-color: var(--focus-ring);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 25%, transparent);
   outline: none;
-}
+} */
 
 /* ═══════════════ Foco visível — PADRÃO ÚNICO ═══════════════ */
 .todo-card {
@@ -444,9 +444,9 @@
     outline-offset: var(--focus-offset);
   }
 
-  app-date-picker-dropdown:focus-within {
+  /* app-date-picker-dropdown:focus-within {
     border-radius: 8px;
-  }
+  } */
 
   .btn-delete:focus-visible,
   .edit-fields .form-control.is-invalid:focus-visible {
@@ -460,9 +460,9 @@
     .btn-action:focus-visible,
     .custom-checkbox:focus-visible,
     .edit-fields .form-control:focus-visible,
-    app-date-picker-dropdown:focus-within {
+    /* app-date-picker-dropdown:focus-within {
       outline-color: Highlight;
-    }
+    } */
 
     .custom-checkbox {
       border-color: CanvasText;
@@ -473,7 +473,7 @@
         opacity: 0.55;
       }
 
-      &:checked {
+      /* &:checked {
         background: Highlight;
         border-color: Highlight;
 
@@ -481,7 +481,7 @@
           background: HighlightText;
           opacity: 1;
         }
-      }
+      } */
     }
   }
 }
