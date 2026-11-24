@@ -1,12 +1,11 @@
 # ✅ LimbaTodo — Frontend
 
-**Aplicação de lista de tarefas (To-Do) construída com Angular 21, Signals, Bootstrap 5 e tema escuro customizado.**
+**Gerenciador de tarefas construído com Angular 21, Signals e Bootstrap 5. Organize suas pendências por vencimento, edite no próprio card e acompanhe o que já foi concluído.**
 
-[![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
+[![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 [🌐 Acessar a aplicação](https://limba-todo-frontend.vercel.app) • [🔗 API Backend](https://climba-todo-one.vercel.app/api/todos) • [📦 Repositório Backend](https://github.com/gesielbr/climba-todo)
 
@@ -14,17 +13,22 @@
 
 ## 📸 Preview
 
-> _Adicione aqui um print ou GIF da aplicação rodando._
+[Acesse a demonstração](https://limba-todo-frontend.vercel.app) para conhecer a tela de entrada e o painel de tarefas.
+
+<!--
+Para incluir uma captura, salve a imagem em docs/preview.png e descomente o bloco abaixo.
 
 <div align="center">
-  <img src="https://via.placeholder.com/800x400/1a1b26/ffffff?text=Limba+Todo+%E2%80%94+Preview" alt="Preview da aplicação" />
+  <img src="./docs/preview.png" alt="Painel do LimbaTodo em tema escuro, com a lista de tarefas e o formulário de criação" />
 </div>
+-->
 
 ---
 
 ## 📋 Sumário
 
 - [Sobre o projeto](#-sobre-o-projeto)
+- [Pontos fortes](#-pontos-fortes)
 - [Funcionalidades](#-funcionalidades)
 - [Tecnologias](#-tecnologias)
 - [Arquitetura do projeto](#-arquitetura-do-projeto)
@@ -38,83 +42,100 @@
 
 ## 🎯 Sobre o projeto
 
-O **LimbaTodo** é uma aplicação de gerenciamento de tarefas (To-Do) desenvolvida como parte de um **teste técnico**. O frontend foi construído com **Angular 21** utilizando as práticas mais modernas do framework:
+O **LimbaTodo** é uma aplicação de gerenciamento de tarefas desenvolvida como parte de um **teste técnico**. O objetivo é facilitar a organização do dia: ao abrir o painel, você vê primeiro o que ainda está pendente e quais prazos vêm antes.
 
-- **Standalone components** (sem `NgModule`)
-- **Signals** para estado reativo
-- **Zoneless** (padrão do Angular 21)
-- **Reactive Forms** para validação
-- **Bootstrap 5** para layout responsivo
-- **Tema escuro customizado** com variáveis CSS
+O frontend usa **Angular 21**, componentes standalone e Signals. As tarefas são persistidas em uma **API REST em .NET 10 com PostgreSQL**, mantida em um [repositório separado](https://github.com/gesielbr/climba-todo). Já o nome usado na saudação fica salvo no navegador.
 
-A aplicação consome uma **API RESTful em .NET 10** com **PostgreSQL** e **Clean Architecture** (repositório separado).
+---
+
+## 💡 Pontos fortes
+
+- **Priorização que ajuda no dia a dia:** pendências aparecem antes das concluídas. Dentro de cada grupo, os prazos são exibidos em ordem crescente, com as tarefas sem data no final.
+- **Estado reativo com responsabilidades bem separadas:** o `TodoService` cuida das requisições e do estado das tarefas. A lista deriva a busca e a ordenação com `computed`, sem alterar o array original do serviço.
+- **Edição sem sair do contexto:** título, descrição e prazo podem ser editados no próprio card. Descrições longas podem ser expandidas sem abrir outra tela.
+- **Status legível para além da cor:** os cards exibem os rótulos **Pendente** e **Concluída**, acompanhados de ícones e bordas que ajudam a distinguir os dois estados.
+- **Entrada simples e personalizada:** a saudação usa o nome salvo no navegador, exibe um avatar com a inicial e se adapta a telas menores.
 
 ---
 
 ## ✨ Funcionalidades
 
-- ✅ **Criar tarefas** com título, descrição e data prevista
-- ✅ **Listar tarefas** em tempo real com Signals
-- ✅ **Editar tarefas** inline (título, descrição e data)
-- ✅ **Excluir tarefas** com feedback visual
-- ✅ **Marcar/desmarcar** tarefas como concluídas
-- ✅ **Pesquisar** por título, descrição ou data
-- ✅ **Badge de status** (Pendente / Concluída) com cores customizadas
-- ✅ **Validação de data prevista** (não pode ser no passado, com feedback em tempo real)
-- ✅ **Ícones dinâmicos** por categoria (⏰, 🏃, 🏋️, 💼, 📝)
-- ✅ **Data atual** no header (pt-BR) com pipe customizado
-- ✅ **Layout responsivo** (desktop, tablet e mobile)
-- ✅ **Tema escuro** customizado com Bootstrap 5
-- ✅ **Scroll independente** na lista de tarefas
+- ✅ Informar o nome na tela de entrada e mantê-lo salvo entre visitas no mesmo navegador.
+- ✅ Criar, editar e excluir tarefas com título, descrição e prazo.
+- ✅ Marcar tarefas como concluídas e reabri-las quando necessário.
+- ✅ Pesquisar por título, descrição ou data de vencimento.
+- ✅ Listar pendências e concluídas por vencimento, com tarefas sem prazo ao final de cada grupo.
+- ✅ Validar o prazo no formulário de criação, com feedback junto ao campo.
+- ✅ Exibir a data atual por extenso em pt-BR, por exemplo: **Terça-feira, 24 de novembro de 2026**.
+- ✅ Exibir indicadores de carregamento, estado de lista vazia e status nos cards.
+- ✅ Usar o painel em desktop, tablet e celular, com tema escuro e rolagem independente na lista.
 
 ---
 
-## 🛠️ Tecnologias
+## 🛠 Tecnologias
 
-| Camada | Tecnologia |
-|--------|------------|
-| Framework | Angular 21 (standalone components) |
-| Estado reativo | Signals |
-| Formulários | Reactive Forms |
-| Estilo | Bootstrap 5 + CSS customizado |
-| Ícones | Bootstrap Icons |
-| HTTP | HttpClient com `withFetch` |
-| Linguagem | TypeScript |
-| Deploy | Vercel |
-| Testes | Vitest (configurado pelo Angular CLI) |
+| Camada         | Tecnologia                                                 |
+| -------------- | ---------------------------------------------------------- |
+| Framework      | Angular 21 com componentes standalone                      |
+| Linguagem      | TypeScript                                                 |
+| Estado reativo | Angular Signals e `computed`                               |
+| Formulários    | Reactive Forms no cadastro de tarefas                      |
+| Navegação      | Angular Router, carregamento sob demanda e guard funcional |
+| Estilo         | Bootstrap 5, Bootstrap Icons e CSS customizado             |
+| HTTP           | Angular HttpClient e RxJS                                  |
+| Testes         | Arquivos `.spec.ts` e execução via Angular CLI             |
+| Deploy         | Vercel                                                     |
 
 ---
 
-## 🏗️ Arquitetura do projeto
+## 🏗 Arquitetura do projeto
 
-O projeto segue uma organização modular baseada em **features**, com separação clara de responsabilidades:
+A estrutura separa componentes de interface, modelos, serviços e regras de navegação. A árvore abaixo agrupa os arquivos de implementação, template, estilo e teste nas respectivas pastas de componentes.
 
-    src/
-    ├── app/
-    │   ├── components/
-    │   │   ├── sidebar/            # Barra lateral de navegação
-    │   │   ├── todo-list/          # Lista de tarefas + busca
-    │   │   ├── todo-card/          # Card individual (edição inline)
-    │   │   └── create-task/        # Formulário de criação
-    │   ├── models/
-    │   │   └── todo.model.ts       # Interfaces (Todo, CreateTodoDto, UpdateTodoDto)
-    │   ├── pipes/
-    │   │   └── capitalize.pipe.ts  # Pipe para capitalizar a data (pt-BR)
-    │   ├── services/
-    │   │   └── todo.service.ts     # Serviço HTTP + estado com Signals
-    │   ├── app.component.ts        # Componente raiz (layout)
-    │   ├── app.html                # Template do layout principal
-    │   ├── app.css                 # Estilos globais do layout
-    │   └── app.config.ts           # Configuração (HttpClient, locale pt-BR)
-    └── styles.css                  # Tema escuro e variáveis CSS
+```text
+src/
+├── app/
+│   ├── components/
+│   │   ├── create-task/          # Formulário de criação de tarefas
+│   │   ├── home/
+│   │   ├── layout/               # Layout da área de tarefas
+│   │   ├── login/                # Tela de entrada por nome
+│   │   ├── sidebar/              # Barra lateral
+│   │   ├── todo-card/            # Card individual e edição inline
+│   │   └── todo-list/            # Busca, ordenação e exibição da lista
+│   ├── date-picker-dropdown/     # Componente de seleção de data
+│   ├── models/
+│   │   └── todo.model.ts         # Todo, CreateTodoDto e UpdateTodoDto
+│   ├── pipes/
+│   │   └── capitalize.pipe.ts
+│   ├── services/
+│   │   ├── todo.service.ts       # Requisições HTTP e estado das tarefas
+│   │   └── user.service.ts       # Nome do usuário e persistência local
+│   ├── app.config.server.ts
+│   ├── app.config.ts
+│   ├── app.css
+│   ├── app.html
+│   ├── app.routes.server.ts
+│   ├── app.routes.ts
+│   ├── app.spec.ts
+│   └── app.ts                    # Componente raiz
+├── guards/
+│   └── name.guard.ts             # Verifica o nome antes de ativar rotas do painel
+├── index.html
+├── main.server.ts
+├── main.ts
+├── server.ts
+└── styles.css                    # Estilos globais e variáveis do tema
+```
 
 ### Fluxo de dados
 
-    Usuário → Componente → TodoService (Signals) → HTTP → API .NET → PostgreSQL
-                    ↑                                           │
-                    └─────────────── atualiza ──────────────────┘
+```text
+Ação na interface → TodoService → HttpClient → API REST
+Resposta da API   → TodoService → Signals    → Interface
+```
 
-O `TodoService` centraliza o estado da aplicação com **Signals** (`todos`, `loading`) e expõe métodos para CRUD. Os componentes reagem automaticamente às mudanças, sem necessidade de recarregar a página.
+O `TodoService` expõe os signals `todos()` e `loading()` para leitura. Depois de uma operação bem-sucedida, o serviço recarrega ou atualiza os dados locais conforme a ação. O `TodoList` reage a essas mudanças e recalcula a lista exibida, sem recarregar a página.
 
 ---
 
@@ -122,151 +143,151 @@ O `TodoService` centraliza o estado da aplicação com **Signals** (`todos`, `lo
 
 ### Pré-requisitos
 
-- Node.js 20+
-- Angular CLI 21+
-- API backend rodando em `http://localhost:8080` (ou usar a API em produção)
+- Node.js em uma [versão compatível com Angular 21](https://angular.dev/reference/versions), como a linha 22 LTS a partir da versão 22.12.
+- npm.
+- Acesso à API publicada ou a uma instância local do backend. Não é necessário instalar o Angular CLI globalmente para usar os comandos abaixo.
 
 ### Instalação
 
-    # Clone o repositório
-    git clone https://github.com/gesielbr/limba-todo-frontend.git
-
-    # Entre na pasta
-    cd limba-todo-frontend
-
-    # Instale as dependências
-    npm install
+```bash
+git clone https://github.com/gesielbr/limba-todo-frontend.git
+cd limba-todo-frontend
+npm install
+```
 
 ### Rodar em desenvolvimento
 
-    ng serve --port 4200
+```bash
+npx ng serve --port 4200
+```
 
 Acesse [http://localhost:4200](http://localhost:4200).
 
-> ⚠️ **Atenção:** a `apiUrl` no `todo.service.ts` precisa apontar para o backend local (`http://localhost:8080/api/todos`) ou para a API em produção (`https://climba-todo-one.vercel.app/api/todos`).
+Por padrão, o `TodoService` aponta para a API publicada. Para desenvolver sem alterar os dados da demonstração, siga as instruções do [backend](https://github.com/gesielbr/climba-todo) e ajuste a propriedade `apiUrl` em `src/app/services/todo.service.ts` para a sua instância, por exemplo `http://localhost:8080/api/todos`.
 
 ### Build de produção
 
-    ng build --configuration production
+```bash
+npx ng build --configuration production
+```
 
-O build é gerado em `dist/limba-todo-frontend/browser`.
+O diretório de saída é definido pela configuração de build no `angular.json`.
 
 ### Testes
 
-    ng test
+```bash
+npx ng test
+```
 
-O Angular CLI 21 usa **Vitest** como test runner padrão.
+O projeto inclui arquivos `.spec.ts` para componentes como login, lista, card e seletor de data.
 
 ---
 
 ## 🔗 Integração com o backend
 
-A aplicação consome a API RESTful em **.NET 10** com **PostgreSQL**:
+**URL base:** `https://climba-todo-one.vercel.app/api/todos`
 
-    https://climba-todo-one.vercel.app/api/todos
+### Endpoints usados no fluxo da interface
 
-### Endpoints utilizados
+| Método   | Endpoint          | Descrição                                   |
+| -------- | ----------------- | ------------------------------------------- |
+| `GET`    | `/api/todos`      | Lista as tarefas                            |
+| `POST`   | `/api/todos`      | Cria uma tarefa                             |
+| `PUT`    | `/api/todos/{id}` | Atualiza título, descrição, prazo ou status |
+| `DELETE` | `/api/todos/{id}` | Exclui uma tarefa                           |
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `GET` | `/api/todos` | Lista todas as tarefas |
-| `POST` | `/api/todos` | Cria uma tarefa |
-| `GET` | `/api/todos/{id}` | Consulta uma tarefa |
-| `PUT` | `/api/todos/{id}` | Atualiza uma tarefa |
-| `PATCH` | `/api/todos/{id}/complete` | Conclui uma tarefa |
-| `DELETE` | `/api/todos/{id}` | Exclui uma tarefa |
+O serviço também disponibiliza `completeTodo()`, que chama `PATCH /api/todos/{id}/complete`. No fluxo atual da lista, tanto **concluir** quanto **reabrir** uma tarefa usam `PUT` com o campo `isCompleted`.
 
 ### Exemplo de payload (criação)
 
-    {
-      "title": "Estudar Angular 21",
-      "description": "Revisar Signals e standalone components",
-      "dueDate": "2026-11-25T00:00:00Z"
-    }
+```json
+{
+  "title": "Estudar Angular 21",
+  "description": "Revisar Signals e componentes standalone",
+  "dueDate": "2030-11-25T00:00:00Z"
+}
+```
 
 ### Exemplo de payload (atualização)
 
-    {
-      "title": "Estudar Angular 21",
-      "description": "Revisar Signals, standalone components e Zoneless",
-      "dueDate": "2026-11-25T00:00:00Z",
-      "isCompleted": true
-    }
+```json
+{
+  "title": "Estudar Angular 21",
+  "description": "Finalizar a revisão de Signals e do Angular Router",
+  "dueDate": "2030-11-25T00:00:00Z",
+  "isCompleted": true
+}
+```
 
-> 📘 A documentação completa da API está no [README do backend](https://github.com/gesielbr/climba-todo).
+> 📘 Consulte o [README do backend](https://github.com/gesielbr/climba-todo) para ver a documentação da API e as instruções para executá-la localmente.
 
 ---
 
 ## 🎯 Decisões técnicas
 
-### Signals para estado reativo
+### Signals para estado, RxJS para HTTP
 
-O estado da aplicação (lista de tarefas, loading e busca) é gerenciado com **Signals**, garantindo que a UI atualize **na hora** após criar, editar ou excluir — sem depender de recarregar a página.
+O estado das tarefas é alterado pelo serviço. Os componentes leem os signals públicos e disparam operações como criar, editar e excluir.
 
-    private todosSignal = signal<Todo[]>([]);
-    public todos = this.todosSignal.asReadonly();
+```ts
+private todosSignal = signal<Todo[]>([]);
+public todos = this.todosSignal.asReadonly();
 
-    private loadingSignal = signal<boolean>(false);
-    public loading = this.loadingSignal.asReadonly();
+private loadingSignal = signal<boolean>(false);
+public loading = this.loadingSignal.asReadonly();
+```
 
-### Validação de data em tempo real
+O `@if` alterna entre o carregamento e o conteúdo. O `@for` usa `track todo.id` para identificar cada card quando a lista é filtrada ou reordenada.
 
-O `create-task` usa um **validador customizado** no Reactive Forms que impede datas no passado, com feedback visual embaixo do campo (sem `alert`). A comparação é feita **apenas pelo dia**, ignorando fuso horário:
+### Busca e ordenação com `computed`
 
-    const escolhida = new Date(ano, mes, dia); // data local, sem UTC
-    if (escolhida < hoje) return { dataPassada: true };
+O `filteredTodos` combina o termo de busca com os dados atuais do serviço. A busca considera título, descrição e prazo, tanto no formato brasileiro quanto no valor ISO recebido da API.
 
-Isso resolve o problema clássico de `new Date('yyyy-MM-dd')` interpretar como UTC e voltar um dia no fuso local.
+A ordenação segue duas regras:
 
-### Edição inline no card
+1. **Pendentes antes de concluídas**, independentemente do vencimento.
+2. **Em cada grupo, prazos em ordem crescente**, com tarefas sem data ou com data inválida no fim.
 
-A edição da tarefa acontece **diretamente no card**, com botões de salvar/cancelar e mensagem de erro embaixo do campo de data. Isso evita modais e mantém a experiência fluida.
+O `sort` atua sobre uma cópia do array. Assim, a ordem de exibição não altera o estado original mantido pelo serviço.
 
-### Busca com `computed`
+### Entrada por nome e navegação
 
-O filtro de busca usa `computed` para recalcular em tempo real e busca em **título, descrição e data** (formatada e ISO):
+A tela de login lê o nome digitado com `viewChild()` e salva o valor no `UserService` antes de navegar. O serviço mantém o nome em um signal e usa `localStorage` para preservá-lo após recarregar a página.
 
-    filteredTodos = computed(() => {
-      const term = this.searchTerm().toLowerCase().trim();
-      // filtra por título, descrição e data (dd/MM/yyyy e ISO)
-    });
+| Rota             | Comportamento                                                         |
+| ---------------- | --------------------------------------------------------------------- |
+| `/`              | Redireciona para `/login`.                                            |
+| `/login`         | Exibe a tela pública de entrada.                                      |
+| `/tasks`         | Abre o painel se houver nome salvo; senão, redireciona para `/login`. |
+| URL desconhecida | Redireciona para `/tasks`, que passa pela mesma verificação.          |
 
-### Limpeza automática da busca
+O `nameGuard` é aplicado com `canActivateChild`, para que novas rotas adicionadas ao grupo do painel compartilhem a regra. As telas de entrada e de tarefas são carregadas sob demanda com `loadComponent`.
 
-Quando o usuário foca em qualquer campo do `create-task`, a busca é limpa automaticamente via **output** (`formFocused`) e **input** (`searchTerm`) entre componentes irmãos, intermediados pelo `app.component`.
+> O guard organiza o fluxo de navegação. O nome salvo no navegador **não é autenticação** e não protege a API nem isola tarefas por usuário.
 
-### Layout responsivo com Bootstrap 5
+### Datas e edição inline
 
-O layout usa o **grid do Bootstrap 5** (`container-fluid`, `row`, `col-*`) com breakpoints para desktop, tablet e mobile. A sidebar é visível apenas em telas maiores (`d-none d-md-block`).
+O formulário de criação valida o prazo no calendário local para não aceitar dias passados. O card permite salvar ou cancelar a edição sem sair da lista. No cabeçalho, a data atual é formatada com `Intl.DateTimeFormat('pt-BR')`.
 
-### Tema escuro customizado
+### Tema escuro e responsividade
 
-As cores são definidas em variáveis CSS no `styles.css`:
+O grid do Bootstrap organiza o painel, enquanto as variáveis CSS centralizam as cores do tema. A saudação usa `clamp()` para ajustar texto e avatar, reticências em nomes longos e `prefers-reduced-motion` para respeitar a preferência por menos animações.
 
-    :root {
-      --bg-sidebar: #16161e;
-      --bg-card: #24283b;
-      --bg-card-active: #3b82f6;
-      --purple-accent: #a855f7;
-    }
-
-### Deploy na Vercel
-
-O frontend é deployado automaticamente na **Vercel** a cada push na branch `main`. O SSR foi removido para simplificar o deploy e evitar porta dinâmica.
+Os estilos usam **CSS Nesting nativo** para agrupar estados e media queries. As classes dos elementos da saudação mantêm seus seletores completos, sem depender da concatenação de seletores do Sass.
 
 ---
 
 ## 📦 Deploy
 
-- **Frontend:** [https://limba-todo-frontend.vercel.app](https://limba-todo-frontend.vercel.app)
-- **Backend:** [https://climba-todo-one.vercel.app/api/todos](https://climba-todo-one.vercel.app/api/todos)
-- **Repositório Backend:** [https://github.com/gesielbr/climba-todo](https://github.com/gesielbr/climba-todo)
+- **Frontend:** [limba-todo-frontend.vercel.app](https://limba-todo-frontend.vercel.app)
+- **API:** [climba-todo-one.vercel.app/api/todos](https://climba-todo-one.vercel.app/api/todos)
+- **Código do backend:** [github.com/gesielbr/climba-todo](https://github.com/gesielbr/climba-todo)
 
 ---
 
 ## 📝 Licença
 
-Este projeto foi desenvolvido como parte de um **teste técnico**. Sinta-se à vontade para usar como referência de estudo.
+Projeto desenvolvido como parte de um **teste técnico**. Antes de reutilizar ou redistribuir o código, verifique os termos de licença publicados no repositório.
 
 ---
 
