@@ -1,8 +1,24 @@
 <div class="todo-list-container p-4">
   <header class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h3 class="fw-bold mb-0">Lista de Tarefas</h3>
-      <p class="date-label mb-0">{{ hoje | date: 'EEEE d' | capitalize }}</p>
+      @if (userService.name()) {
+        <div class="user-greeting">
+          <span class="user-greeting-avatar" aria-hidden="true">
+            {{ greetingInitial() }}
+          </span>
+
+          <span class="user-greeting-text">
+            Olá,
+            <strong class="user-greeting-name" [title]="userService.name()">
+              {{ userService.name() }}
+            </strong>
+          </span>
+
+          <span class="user-greeting-wave" aria-hidden="true">👋</span>
+        </div>
+      }
+
+      <p class="date-label mb-0 mt-4">{{ hojeFormatada() }}</p>
     </div>
   </header>
 

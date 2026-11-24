@@ -4,6 +4,7 @@
   --card-label: var(--text-muted, #7aa2f7);
   --pending: #e0af68; /* âmbar — pendente */
   --done: #2dd4a7; /* verde — concluída */
+  --danger: #ef4444; /* vermelho p/ pendentes */
   --danger: #f7768e; /* vermelho — excluir / inválido */
   --accent: var(--purple-accent, #a855f7);
   --pending: var(--danger); /* era âmbar #e0af68 → agora vermelho (rose do tema) */
@@ -55,6 +56,13 @@
       text-decoration: line-through;
       opacity: 0.65;
     }
+  }
+
+  &:not(.completed) {
+    border-color: var(--danger);
+    box-shadow:
+      0 0 2px color-mix(in srgb, var(--danger) 45%, transparent),
+      0 0 12px color-mix(in srgb, var(--danger) 25%, transparent);
   }
 
   /* ── Estrutura das colunas ─────────────────────────────────── */

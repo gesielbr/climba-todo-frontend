@@ -1,8 +1,4 @@
 /* =========================================
-   COMPONENTE PRINCIPAL
-   ========================================= */
-
-/* =========================================
    CONTAINER DA LISTA
    ========================================= */
 .todo-list-container {
@@ -11,12 +7,166 @@
   display: flex;
   flex-direction: column;
 
-  /* Garante que todos os inputs dentro da lista tenham 1rem (16px) */
   input,
   textarea,
   select,
   .form-control {
-    font-size: 1rem; /* 1rem = 16px */
+    font-size: 1rem;
+  }
+
+  /* ─── Header ─── */
+  header > div {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .date-label {
+    color: var(--text-muted);
+  }
+
+  /* ─── Search ─── */
+  .search-box {
+    position: relative;
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #565f89;
+      pointer-events: none;
+    }
+
+    .search-input {
+      font-size: 1rem;
+      padding-left: 36px;
+      background-color: var(--bg-input);
+      border: 1px solid #3b4261;
+      color: white;
+      border-radius: 8px;
+
+      &:focus {
+        background-color: var(--bg-input);
+        color: white;
+        border-color: var(--purple-accent);
+        box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+      }
+
+      &::placeholder {
+        color: #565f89;
+      }
+    }
+  }
+
+  /* ─── User Greeting: pill principal ─── */
+  .user-greeting {
+    --avatar-size: clamp(2.5rem, 10vw, 3.6rem);
+
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(0.5rem, 2vw, 1rem);
+    margin-top: 1rem;
+    padding: clamp(0.35rem, 1.5vw, 0.6rem) clamp(0.9rem, 4vw, 1.8rem) clamp(0.35rem, 1.5vw, 0.6rem)
+      clamp(0.35rem, 1.5vw, 0.6rem);
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, rgba(166, 73, 239, 0.28) 0%, rgba(22, 137, 94, 0.18) 100%);
+    border: 2px solid rgba(166, 73, 239, 0.55);
+    border-radius: 999px;
+    font-size: clamp(1.05rem, 4.5vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #cfd3e1;
+    box-shadow:
+      0 12px 32px -10px rgba(166, 73, 239, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    animation: greetingIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    will-change: transform, opacity;
+
+    @media (max-width: 575px) {
+      display: flex;
+      width: 100%;
+      margin-top: 0.85rem;
+    }
+
+    @media (max-width: 380px) {
+      --avatar-size: 2.35rem;
+      border-width: 1.5px;
+      font-size: 1rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none !important;
+    }
+  }
+}
+
+/* ─── Greeting: filhos BEM (sem &- porque CSS nativo não faz concatenação) ─── */
+
+.user-greeting-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a649ef 0%, #16895e 100%);
+  color: #fff;
+  font-size: calc(var(--avatar-size) * 0.44);
+  font-weight: 800;
+  text-transform: uppercase;
+  box-shadow: 0 0 18px -2px rgba(166, 73, 239, 0.8);
+  flex-shrink: 0;
+  animation: avatarPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+  }
+}
+
+.user-greeting-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  animation: textFade 0.6s ease 0.25s both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+  }
+}
+
+.user-greeting-name {
+  color: #ffffff;
+  font-weight: 800;
+  min-width: 0;
+  max-width: clamp(7rem, 38vw, 20rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-greeting-wave {
+  display: inline-block;
+  font-size: clamp(1.2rem, 5vw, 1.9rem);
+  flex-shrink: 0;
+  transform-origin: 70% 70%;
+  animation: wave 1.8s ease-in-out 0.5s 1 both;
+
+  @media (max-width: 575px) {
+    margin-left: auto;
+  }
+
+  @media (max-width: 380px) {
+    font-size: 1.15rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
   }
 }
 
@@ -25,20 +175,19 @@
    ========================================= */
 .list {
   flex: 1;
-}
 
-/* Sobreposição dos cards */
-.list app-todo-card {
-  position: relative;
-  z-index: 0;
-}
+  app-todo-card {
+    position: relative;
+    z-index: 0;
 
-.list app-todo-card.editing-card {
-  z-index: 10;
-}
+    &.editing-card {
+      z-index: 10;
+    }
 
-.list app-todo-card.calendar-open-card {
-  z-index: 20;
+    &.calendar-open-card {
+      z-index: 20;
+    }
+  }
 }
 
 /* =========================================
@@ -50,70 +199,94 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-/* =========================================
-   DATA
-   ========================================= */
-.date-label {
-  color: var(--text-muted);
-}
-
-/* =========================================
-   CAMPO DE PESQUISA
-   ========================================= */
-.search-box {
-  position: relative;
-}
-
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #565f89;
-  pointer-events: none;
-}
-
-.search-input {
-  font-size: 1rem; /* 1rem = 16px */
-  padding-left: 36px;
-  background-color: var(--bg-input);
-  border: 1px solid #3b4261;
-  color: white;
-  border-radius: 8px;
-}
-
-.search-input:focus {
-  background-color: var(--bg-input);
-  color: white;
-  border-color: var(--purple-accent);
-  box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
-}
-
-.search-input::placeholder {
-  color: #565f89;
-}
-
-/* =========================================
-   RESPONSIVIDADE
-   ========================================= */
-
-/* Mobile: até 575px */
-@media (max-width: 575px) {
-  .todo-list-container {
-    padding: 1rem !important;
-  }
-
-  .btn-arrow {
+  @media (max-width: 575px) {
     width: 38px;
     height: 38px;
   }
 }
 
-/* Mobile: até 767px */
-@media (max-width: 767px) {
-  :host {
+/* =========================================
+   RESPONSIVIDADE GERAL
+   ========================================= */
+.todo-list-container {
+  @media (max-width: 575px) {
+    padding: 1rem !important;
+  }
+}
+
+:host {
+  @media (max-width: 767px) {
     height: 100%;
+  }
+}
+
+/* =========================================
+   KEYFRAMES
+   ========================================= */
+@keyframes greetingIn {
+  from {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(4px) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes avatarPop {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes textFade {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(20deg);
+  }
+  20% {
+    transform: rotate(-10deg);
+  }
+  30% {
+    transform: rotate(18deg);
+  }
+  40% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+  60% {
+    transform: rotate(-4deg);
+  }
+  70% {
+    transform: rotate(6deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }
