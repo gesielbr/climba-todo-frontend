@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { nameGuard } from '../guards/name.guard';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,8 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'tasks', // Ou 'dashboard' / 'home', como preferir chamar a URL
+    path: 'tasks',
+    canActivate: [nameGuard],
     loadComponent: () => import('./components/layout/layout').then((m) => m.Layout),
   },
 ];
