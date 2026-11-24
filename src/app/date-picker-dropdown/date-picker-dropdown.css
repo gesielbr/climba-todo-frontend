@@ -1,7 +1,18 @@
 /* =========================================
    ESTILOS VISUAIS: date-picker-dropdown
    ========================================= */
+.date-picker-dropdown {
+  /* Garante que todos os inputs dentro do componente tenham 1rem (16px) */
+  input,
+  textarea,
+  select,
+  .form-control {
+    font-size: 1rem; /* 1rem = 16px */
+  }
+}
+
 .date-picker-dropdown__input {
+  font-size: 1rem; /* 1rem = 16px (sobrescreve o form-control-sm) */
   background-color: var(--bg-input);
   padding-right: 2.5rem;
 }

@@ -10,6 +10,14 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+
+  /* Garante que todos os inputs dentro da lista tenham 1rem (16px) */
+  input,
+  textarea,
+  select,
+  .form-control {
+    font-size: 1rem; /* 1rem = 16px */
+  }
 }
 
 /* =========================================
@@ -68,6 +76,7 @@
 }
 
 .search-input {
+  font-size: 1rem; /* 1rem = 16px */
   padding-left: 36px;
   background-color: var(--bg-input);
   border: 1px solid #3b4261;

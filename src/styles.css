@@ -1,5 +1,5 @@
 /* ========================================
-   THEME  (vem primeiro pra todo mundo usar)
+   THEME (vem primeiro pra todo mundo usar)
 ======================================== */
 :root {
   --bg-app: #1a1b26;
@@ -15,6 +15,10 @@
 /* ========================================
    GLOBAL
 ======================================== */
+html {
+  font-size: 16px; /* Garante que 1rem = 16px em toda a aplicação */
+}
+
 *,
 *::before,
 *::after {
@@ -35,10 +39,24 @@ body {
 
   overscroll-behavior: none;
   overscroll-behavior-y: none;
-  -webkit-overflow-scrolling: auto; /* NUNCA use "touch" aqui, é ele que elástica */
+  -webkit-overflow-scrolling: auto;
 }
 
-/* remove o antigo: html { min-height: 100vh; ... } */
+/* ========================================
+   GLOBAL FORM TYPOGRAPHY
+   Todos os inputs com 1rem (16px)
+======================================== */
+input,
+select,
+textarea,
+.form-control,
+.form-control-sm,
+.form-control-lg,
+.form-select,
+.form-select-sm,
+.form-select-lg {
+  font-size: 1rem; /* 1rem = 16px */
+}
 
 /* ========================================
    BOOTSTRAP CUSTOMIZATION
@@ -52,6 +70,8 @@ body {
 
 .form-control,
 .form-select {
+  font-size: 1rem; /* 1rem = 16px */
+
   &:focus {
     background-color: var(--bg-input);
     color: white;
@@ -102,6 +122,6 @@ input[type='search'] {
     overflow: hidden;
     overscroll-behavior: none;
     overscroll-behavior-y: none;
-    background: var(--bg-app); /* sem hardcoded, não vaza pras outras telas */
+    background: var(--bg-app);
   }
 }
