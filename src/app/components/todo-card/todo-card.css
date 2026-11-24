@@ -1,5 +1,5 @@
 :host {
-  --card-bg: var(--bg-card, #24283b);
+  /* --card-bg: var(--bg-card, #24283b); */
   --card-border: #3b4159;
   --card-label: var(--text-muted, #7aa2f7);
   --pending: #e0af68; /* âmbar — pendente */
