@@ -16,6 +16,10 @@
 .create-task-panel {
   border-left: 1px solid #2a2e3f;
   color: #ffffff;
+
+  @media (max-width: 575.99px) {
+    border-left: none;
+  }
 }
 
 /* =========================================
@@ -32,12 +36,6 @@
   color: var(--text-muted-field);
 }
 
-/*
-  Override local obrigatório: a regra base acima é compilada como
-  `.form-control[_ngcontent-xxx]` (0,2,0) e empata com a global
-  `:is(.form-control, .form-select):focus` (0,2,0), vencendo por ordem.
-  Esta regra vira (0,3,0) e volta a aplicar o foco corretamente.
-*/
 .form-control:focus {
   background-color: var(--bg-input);
   border-color: var(--purple-accent);
