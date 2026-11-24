@@ -46,7 +46,10 @@
   }
 
   &.completed {
-    border-color: color-mix(in srgb, var(--done) 30%, var(--card-border));
+    border-color: var(--done);
+    box-shadow:
+      0 0 2px color-mix(in srgb, var(--done) 45%, transparent),
+      0 0 12px color-mix(in srgb, var(--done) 25%, transparent);
 
     .text-content .task-title {
       text-decoration: line-through;

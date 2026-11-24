@@ -1,5 +1,17 @@
 /* =========================================
-   PAINEL: CREATE TASK
+   TOKENS LOCAIS
+   ========================================= */
+:host {
+  --border-field: #3b4261;
+  --text-muted-field: #565f89;
+  --danger: #f7768e;
+
+  /* Ícone de erro (stroke = var(--danger) codificado) */
+  --icon-invalid: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+}
+
+/* =========================================
+   PAINEL
    ========================================= */
 .create-task-panel {
   border-left: 1px solid #2a2e3f;
@@ -7,126 +19,67 @@
 }
 
 /* =========================================
-   TEXTOS E PLACEHOLDERS
+   CAMPOS DO FORMULÁRIO — ESTADO BASE
    ========================================= */
-.date-placeholder {
-  color: #565f89;
-}
-
-/* =========================================
-   CAMPOS DO FORMULÁRIO
-   ========================================= */
-
-/* Estilo padrão dos campos */
 .form-control {
   background-color: var(--bg-input);
-  border: 1px solid #3b4261;
-  color: #ffffff;
+  border: 1px solid var(--border-field);
   border-radius: 8px;
+  color: #ffffff;
 }
 
-/* Cor dos textos de placeholder */
 .form-control::placeholder {
-  color: #565f89;
+  color: var(--text-muted-field);
+}
+
+/*
+  Override local obrigatório: a regra base acima é compilada como
+  `.form-control[_ngcontent-xxx]` (0,2,0) e empata com a global
+  `:is(.form-control, .form-select):focus` (0,2,0), vencendo por ordem.
+  Esta regra vira (0,3,0) e volta a aplicar o foco corretamente.
+*/
+.form-control:focus {
+  background-color: var(--bg-input);
+  border-color: var(--purple-accent);
+  box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--purple-accent) 25%, transparent);
+  color: #ffffff;
+  outline: none;
 }
 
 /* =========================================
-   VALIDAÇÃO DOS CAMPOS
+   CAMPOS DO FORMULÁRIO — ESTADO INVÁLIDO
    ========================================= */
 
-/* Campo inválido sem foco */
-/* Campo inválido sem foco */
-.form-control.ng-invalid.ng-touched:not(:focus),
-textarea.form-control.ng-invalid.ng-dirty:not(:focus) {
-  border-color: #f7768e !important;
-  box-shadow: none !important;
-}
-
-/* Campo inválido com foco */
-.edit-fields input.is-invalid:focus,
-.form-control.is-invalid:focus,
-.form-control.ng-invalid.ng-touched:focus,
-textarea.form-control.ng-invalid.ng-dirty:focus {
-  border-color: #f7768e !important;
-  box-shadow: 0 0 0 0.25rem rgba(247, 118, 142, 0.25) !important;
-}
-
-/* Ícone de erro nos campos inválidos */
-.form-control.ng-invalid.ng-touched,
-textarea.form-control.ng-invalid.ng-dirty {
+/* Ícone de erro */
+.form-control.ng-invalid:is(.ng-touched, .ng-dirty) {
   padding-right: 2.5rem;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-image: var(--icon-invalid);
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: calc(1em + 0.5rem) calc(1em + 0.5rem);
 }
 
-/* Ícone centralizado verticalmente e afastado da borda direita */
-textarea.form-control.ng-invalid.ng-touched,
-textarea.form-control.ng-invalid.ng-dirty {
+/* Textarea: ícone um pouco mais afastado da borda */
+textarea.form-control.ng-invalid:is(.ng-touched, .ng-dirty) {
   background-position: right 1rem center;
 }
 
-/* Ícone de erro nos campos inválidos */
-.form-control.ng-invalid.ng-touched {
-  padding-right: 2.5rem;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: calc(1em + 0.5rem) calc(1em + 0.5rem);
+/* Borda vermelha sem foco */
+.form-control.ng-invalid:is(.ng-touched, .ng-dirty):not(:focus) {
+  border-color: var(--danger) !important;
+  box-shadow: none !important;
 }
 
-/* =========================================
-   INPUT DE DATA NATIVO
-   ========================================= */
-
-/* Aparência padrão */
-input[type='date'] {
-  background-color: var(--bg-input);
-  border: 1px solid #3b4261;
-  color: #ffffff;
-  border-radius: 8px;
-}
-
-/* Ícone nativo do calendário */
-input[type='date']::-webkit-calendar-picker-indicator {
-  opacity: 1;
-  cursor: pointer;
-}
-
-/* Texto da data */
-input[type='date']::-webkit-datetime-edit {
-  color: #ffffff;
-}
-
-/* Data inválida */
-input[type='date'].is-invalid {
-  background-image: none;
-  border-color: #dc3545;
-}
-
-input[type='date'].is-invalid::-webkit-datetime-edit {
-  color: #dc3545;
+/* Borda vermelha com foco */
+.form-control.is-invalid:focus,
+.form-control.ng-invalid:is(.ng-touched, .ng-dirty):focus {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--danger) 25%, transparent) !important;
 }
 
 /* =========================================
    BOTÕES
    ========================================= */
-
-/* Botão de ação importante */
-.btn-important {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
-  color: #ffffff;
-}
-
-/* Hover do botão de ação importante */
-.btn-important:hover {
-  background-color: #2563eb;
-  border-color: #2563eb;
-}
-
-/* Botão de criação desabilitado */
 .btn-success:disabled,
 .btn-success[disabled] {
   background-color: rgba(25, 135, 84, 0.4);
